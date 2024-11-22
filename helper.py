@@ -27,15 +27,47 @@ def generate_breadcrumbs(sections: List[Dict[str, Any]]) -> str:
     breadcrumbs_html += '</ol>'
     return breadcrumbs_html
 
+# Helper function to generate chart HTML
+def generate_chart_html(chart_data: Dict[str, Any], indent: str) -> str:
+    chart_json = json.dumps(chart_data).replace("'", "&apos;")
+    return (
+        f'{indent}<div class="chart-container" data-chart-data=\'{chart_json}\'>\n'
+        f'{indent}    <canvas></canvas>\n'
+        f'{indent}</div>\n'
+    )
+
+# Helper function to generate fold HTML
+def generate_fold_html(fold: Dict[str, Any], unique_id: str, level: int, indent: str) -> str:
+    fold_html = f'{indent}<button class="collapsible" aria-expanded="false" aria-controls="{unique_id}">{fold["title"]}</button>\n'
+    fold_html += f'{indent}<div id="{unique_id}" class="content-panel">\n'
+    
+    # If the fold contains a chart
+    if "chart" in fold:
+        fold_html += generate_chart_html(fold["chart"], indent + "    ")
+    
+    # If the fold contains nested content
+    if "content" in fold:
+        for content in fold["content"]:
+            fold_html += f'{indent}    <p>{content}</p>\n'
+    
+    # If the fold contains nested folds, recurse
+    if "folds" in fold:
+        fold_html += generate_section_content([fold], level + 1)
+    
+    fold_html += f'{indent}</div>\n'
+    return fold_html
+
+# Main function to generate section content
 def generate_section_content(sections: List[Dict[str, Any]], level: int = 0) -> str:
     sections_html = ""
     indent = "    " * level  # Indentation for readability
 
     for i, section in enumerate(sections):
-        # Top-level or nested sections
+        # Determine CSS classes
         classes = "section" if level == 0 else "nested-section"
         if section.get("dark"):
             classes += " dark"
+
         sections_html += f'{indent}<div class="{classes}">\n'
         sections_html += f'{indent}    <div class="content-wrapper">\n'
         sections_html += f'{indent}        <div class="text-content">\n'
@@ -47,22 +79,7 @@ def generate_section_content(sections: List[Dict[str, Any]], level: int = 0) -> 
         # Handle collapsible sections (folds)
         for j, fold in enumerate(section.get("folds", [])):
             unique_id = f"collapsible-{level}-{i}-{j}"  # Unique ID for each fold
-            sections_html += f'{indent}            <button class="collapsible" aria-expanded="false" aria-controls="{unique_id}">{fold["title"]}</button>\n'
-            sections_html += f'{indent}            <div id="{unique_id}" class="content-panel">\n'
-            
-            # If the fold contains a chart, include it
-            if "chart" in fold:
-                # Serialize the chart data as JSON
-                chart_json = json.dumps(fold["chart"]).replace("'", "&apos;")
-                sections_html += f'{indent}                <div class="chart-container" data-chart-data=\'{chart_json}\'>\n'
-                sections_html += f'{indent}                    <canvas></canvas>\n'
-                sections_html += f'{indent}                </div>\n'
-            # If the fold has additional content, handle it
-            else:
-                for fold_content in fold.get("content", []):
-                    sections_html += f'{indent}                <p>{fold_content}</p>\n'
-
-            sections_html += f'{indent}            </div>\n'
+            sections_html += generate_fold_html(fold, unique_id, level, indent + "        ")
 
         sections_html += f'{indent}        </div>\n'
 
@@ -78,6 +95,7 @@ def generate_section_content(sections: List[Dict[str, Any]], level: int = 0) -> 
         sections_html += f'{indent}</div>\n\n'
 
     return sections_html
+
 
 def copy_images(
     sections: List[Dict[str, Any]],

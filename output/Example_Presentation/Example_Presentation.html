@@ -7,7 +7,7 @@
     <!-- Link to Core CSS -->
     <link rel="stylesheet" href="static/css/core.css">
     <!-- Link to Theme CSS -->
-    <link id="theme-link" rel="stylesheet" href="static/css/themes/style-blue.css">
+    <link id="theme-link" rel="stylesheet" href="static/css/themes/style-dark.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
@@ -55,14 +55,33 @@
         <div class="text-content">
             <p><p>Welcome to the presentation!</p></p>
             <p><p>This section introduces the topic and sets the context.</p></p>
-            <button class="collapsible" aria-expanded="false" aria-controls="collapsible-0-1-0">Background</button>
-            <div id="collapsible-0-1-0" class="content-panel">
+        <button class="collapsible" aria-expanded="false" aria-controls="collapsible-0-1-0">Background</button>
+        <div id="collapsible-0-1-0" class="content-panel">
+            <p><p>Historical context and foundational information.</p></p>
+    <div class="nested-section">
+        <div class="content-wrapper">
+            <div class="text-content">
                 <p><p>Historical context and foundational information.</p></p>
+            <button class="collapsible" aria-expanded="false" aria-controls="collapsible-1-0-0">Early Developments</button>
+            <div id="collapsible-1-0-0" class="content-panel">
+                <p><p>Key milestones in the early stages.</p></p>
             </div>
-            <button class="collapsible" aria-expanded="false" aria-controls="collapsible-0-1-1">Objectives</button>
-            <div id="collapsible-0-1-1" class="content-panel">
-                <p><p>Primary goals and expected outcomes.</p></p>
+            <button class="collapsible" aria-expanded="false" aria-controls="collapsible-1-0-1">Modern Advances</button>
+            <div id="collapsible-1-0-1" class="content-panel">
+                <p><p>Recent breakthroughs and current trends.</p></p>
             </div>
+            </div>
+            <div class="image-content">
+                <img src="images/Placeholder+Image.png" alt="Background Image">
+            </div>
+        </div>
+    </div>
+
+        </div>
+        <button class="collapsible" aria-expanded="false" aria-controls="collapsible-0-1-1">Objectives</button>
+        <div id="collapsible-0-1-1" class="content-panel">
+            <p><p>Primary goals and expected outcomes.</p></p>
+        </div>
         </div>
         <div class="image-content">
             <img src="images/Placeholder+Image.png" alt="Introduction Image">
@@ -84,11 +103,11 @@
         <div class="text-content">
             <p>Steps to clean the data and handle missing values.</p>
             <p>Techniques used for data preprocessing.</p>
-            <button class="collapsible" aria-expanded="false" aria-controls="collapsible-0-3-0">Handling Missing Values</button>
-            <div id="collapsible-0-3-0" class="content-panel">
-                <p>Imputation with mean.</p>
-                <p>Dropping incomplete records.</p>
-            </div>
+        <button class="collapsible" aria-expanded="false" aria-controls="collapsible-0-3-0">Handling Missing Values</button>
+        <div id="collapsible-0-3-0" class="content-panel">
+            <p>Imputation with mean.</p>
+            <p>Dropping incomplete records.</p>
+        </div>
         </div>
         <div class="image-content">
             <img src="images/Placeholder+Image.png" alt="Data Preparation Image">
@@ -101,12 +120,13 @@
         <div class="text-content">
             <p>Overview of the predictive models used.</p>
             <p>Evaluation metrics and results interpretation.</p>
-            <button class="collapsible" aria-expanded="false" aria-controls="collapsible-0-4-0">Data Overview2</button>
-            <div id="collapsible-0-4-0" class="content-panel">
-                <div class="chart-container" data-chart-data='{"type": "bar", "data": {"labels": ["January", "February", "March", "April"], "datasets": [{"label": "Sales", "data": [50, 60, 70, 80], "backgroundColor": "rgba(75, 192, 192, 0.2)", "borderColor": "rgba(75, 192, 192, 1)", "borderWidth": 1}]}, "options": {"scales": {"y": {"beginAtZero": true}}}}'>
-                    <canvas></canvas>
-                </div>
+        <button class="collapsible" aria-expanded="false" aria-controls="collapsible-0-4-0">Data Overview2</button>
+        <div id="collapsible-0-4-0" class="content-panel">
+            <div class="chart-container" data-chart-data='{"type": "bar", "data": {"labels": ["January", "February", "March", "April"], "datasets": [{"label": "Sales", "data": [50, 60, 70, 80], "backgroundColor": "rgba(75, 192, 192, 0.2)", "borderColor": "rgba(75, 192, 192, 1)", "borderWidth": 1}]}, "options": {"scales": {"y": {"beginAtZero": true}}}}'>
+                <canvas></canvas>
             </div>
+            <p>This section provides an overview of data trends.</p>
+        </div>
         </div>
         <div class="image-content">
             <img src="images/Placeholder+Image.png" alt="Modeling Image">

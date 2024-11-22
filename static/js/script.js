@@ -5,7 +5,6 @@ function log(message, type = "log") {
     console[type](message);
 }
 
-// Section Management
 const SectionManager = (() => {
     let currentIndex = 0; // Tracks the currently active section
     const mainSections = document.querySelectorAll('.section');
@@ -17,8 +16,7 @@ const SectionManager = (() => {
             mainSections[currentIndex].classList.add('active'); // Mark the first slide as active
             document.body.classList.add('dark-background'); // Add dark theme for the first slide
             log('Initialized with the first slide active.');
-            // Update breadcrumb
-            BreadcrumbManager.updateBreadcrumb(); // Initialize breadcrumb
+            BreadcrumbManager.updateBreadcrumb();
         }
     }
 
@@ -64,7 +62,6 @@ const SectionManager = (() => {
         }
 
         log(`Navigated to section index: ${currentIndex}`);
-        // Update breadcrumb
         BreadcrumbManager.updateBreadcrumb();
     }
 
@@ -76,8 +73,30 @@ const SectionManager = (() => {
         }
     }
 
-    return { initialize, goToSection, nextSection };
+    function previousSection() {
+        if (currentIndex > 0) {
+            goToSection(currentIndex - 1);
+        } else {
+            log('Already on the first section. No further navigation.');
+        }
+    }
+
+    function setupKeyboardNavigation() {
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Backspace') {
+                event.preventDefault(); // Prevent default back navigation in the browser
+                previousSection();
+            } else if (event.key === 'ArrowRight') {
+                nextSection();
+            } else if (event.key === 'ArrowLeft') {
+                previousSection();
+            }
+        });
+    }
+
+    return { initialize, goToSection, nextSection, previousSection, setupKeyboardNavigation };
 })();
+
 
 // TOC Management
 const TOCManager = (() => {
@@ -94,7 +113,6 @@ const TOCManager = (() => {
     return { setupTOCNavigation };
 })();
 
-// Chart Management
 // Chart Management
 const ChartManager = (() => {
     function initializeCharts() {
@@ -128,52 +146,67 @@ const ChartManager = (() => {
 })();
 
 
-// Collapsible Management (Updated to initialize charts when panel becomes active)
+// Collapsible Management (Refactored for Modularity and Accessibility)
 const CollapsibleManager = (() => {
+    // Initialize a single collapsible button
+    function initializeCollapsible(button) {
+        // Determine nesting level for styling
+        let level = 1;
+        let parent = button.parentElement;
+        while (parent && parent.classList.contains('content-panel')) {
+            level++;
+            parent = parent.parentElement;
+        }
+        button.classList.add(`level-${level}`);
+
+        // Ensure ARIA attributes are set
+        button.setAttribute('role', 'button');
+        button.setAttribute('aria-expanded', 'false');
+
+        // Click event handler
+        button.addEventListener('click', (event) => {
+            event.stopPropagation(); // Prevent event bubbling to parent elements
+            log(`Collapsible button clicked: ${button.textContent}`);
+            const isActive = button.classList.toggle('active');
+            const panelId = button.getAttribute('aria-controls');
+            const panel = document.getElementById(panelId);
+
+            if (panel) {
+                panel.classList.toggle('active');
+                log(`Toggled panel: ${panelId}, Now Active: ${panel.classList.contains('active')}`);
+
+                // If panel becomes active, initialize any charts inside it
+                if (panel.classList.contains('active')) {
+                    ChartManager.initializeCharts();
+                }
+
+                // Update aria-expanded attribute for accessibility
+                button.setAttribute('aria-expanded', isActive);
+            } else {
+                log(`Panel with id '${panelId}' not found.`, "error");
+            }
+        });
+
+        // Enable keyboard accessibility
+        button.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                button.click();
+            }
+        });
+    }
+
+    // Set up all collapsibles
     function setupCollapsibles() {
         const collapsibles = document.querySelectorAll('.collapsible');
         log(`Found ${collapsibles.length} collapsible buttons.`);
-        collapsibles.forEach(button => {
-            // Determine nesting level
-            let level = 1;
-            let parent = button.parentElement;
-            while (parent && parent.classList.contains('content-panel')) {
-                level++;
-                parent = parent.parentElement;
-            }
-            button.classList.add(`level-${level}`);
-
-            button.addEventListener('click', (event) => {
-                event.stopPropagation(); // Prevent event bubbling to parent elements
-                log(`Collapsible button clicked: ${button.textContent}`);
-                button.classList.toggle('active');
-                const panelId = button.getAttribute('aria-controls');
-                const panel = document.getElementById(panelId);
-
-                if (panel) {
-                    panel.classList.toggle('active');
-                    log(`Toggled panel: ${panelId}, Now Active: ${panel.classList.contains('active')}`);
-
-                    // If panel becomes active, initialize any charts inside it
-                    if (panel.classList.contains('active')) {
-                        ChartManager.initializeCharts();
-                    }
-                    
-
-                    // Remove any inline styles to rely solely on CSS for transitions
-                    panel.style.maxHeight = null;
-
-                    // Update aria-expanded attribute for accessibility
-                    button.setAttribute('aria-expanded', button.classList.contains('active'));
-                } else {
-                    log(`Panel with id '${panelId}' not found.`, "error");
-                }
-            });
-        });
+        collapsibles.forEach(initializeCollapsible); // Use the helper function
     }
 
     return { setupCollapsibles };
 })();
+
+
 
 
 // Content Click Handling
@@ -278,6 +311,7 @@ const ContentFirstManager = (() => {
 // Initialize Everything
 document.addEventListener('DOMContentLoaded', () => {
     SectionManager.initialize();
+    SectionManager.setupKeyboardNavigation(); // Enable keyboard navigation
     TOCManager.setupTOCNavigation();
     BreadcrumbManager.setupBreadcrumbNavigation(); // Initialize breadcrumb navigation
     BreadcrumbManager.updateBreadcrumb(); // Initialize breadcrumb state
