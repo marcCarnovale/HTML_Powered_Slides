@@ -255,7 +255,25 @@ const BreadcrumbManager = (() => {
     return { updateBreadcrumb, setupBreadcrumbNavigation };
 })();
 
+// Content-First Mode Management
+const ContentFirstManager = (() => {
+    function setupContentFirstToggle() {
+        const toggleButton = document.getElementById('toggle-content-first');
+        if (!toggleButton) {
+            log('Content-First toggle button not found.', 'error');
+            return;
+        }
 
+        toggleButton.addEventListener('click', () => {
+            document.body.classList.toggle('content-first');
+            const isContentFirst = document.body.classList.contains('content-first');
+            toggleButton.textContent = isContentFirst ? 'Show Sidebar' : 'Hide Sidebar';
+            log(`Content-First mode toggled. Now content-first: ${isContentFirst}`);
+        });
+    }
+
+    return { setupContentFirstToggle };
+})();
 
 // Initialize Everything
 document.addEventListener('DOMContentLoaded', () => {
@@ -266,4 +284,5 @@ document.addEventListener('DOMContentLoaded', () => {
     CollapsibleManager.setupCollapsibles();
     ContentManager.setupContentClick();
     SidebarManager.setupSidebarToggle();
+    ContentFirstManager.setupContentFirstToggle(); // Initialize Content-First toggle
 });
