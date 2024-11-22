@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+    <div class="sidebar" id="sidebar">
+        <h3>Table of Contents</h3>
+        <button class="toggle-tab" onclick="toggleSidebar()">&#10095;</button>
+        {{toc}}
+    </div>
+    <div class="container">
+        <div class="header">
+            <h1>{{title}}</h1>
+        </div>
+        <div class="content" id="content">
+            {{sections}}
+        </div>
+    </div>
+    <script>
+        let currentIndex = 0;
+        const sections = document.querySelectorAll('.section');
+        const tocLinks = document.querySelectorAll('.sidebar a');
+
+        function toggleBackground(index) {
+            const body = document.body;
+            if (index === 0) {
+                body.classList.add('dark-background');
+            } else {
+                body.classList.remove('dark-background');
+            }
+        }
+
+        function navigateTo(tocIndex) {
+            let targetIndex = tocIndex + 1; // TOC link 0 corresponds to section 1
+            if (targetIndex < 0 || targetIndex >= sections.length) return;
+            // Remove active class from current section
+            sections[currentIndex].classList.remove('active');
+            // Remove active class from previous TOC link
+            if (currentIndex > 0) { // TOC links start from section 1
+                tocLinks[currentIndex - 1].classList.remove('active');
+            }
+            // Set new currentIndex
+            currentIndex = targetIndex;
+            sections[currentIndex].classList.add('active');
+            tocLinks[tocIndex].classList.add('active');
+            toggleBackground(currentIndex);
+        }
+
+        function next() {
+            if (currentIndex < sections.length - 1) {
+                let tocIndex = currentIndex; // currentIndex corresponds to the TOC index for next slide
+                navigateTo(tocIndex);
+            }
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('minimized');
+        }
+
+        document.getElementById('content').addEventListener('click', function(event) {
+            const tagName = event.target.tagName.toLowerCase();
+            if (!['button', 'a', 'img', 'input', 'textarea'].includes(tagName)) {
+                next();
+            }
+        });
+
+        document.querySelectorAll('.collapsible').forEach(button => {
+            button.addEventListener('click', () => {
+                button.classList.toggle('active');
+                const panel = button.nextElementSibling;
+                panel.classList.toggle('active');
+            });
+        });
+
+        window.onload = function() {
+            if (sections.length > 0) {
+                sections[0].classList.add('active');
+                toggleBackground(0);
+                // No TOC link active for title slide
+            }
+        };
+    
+    </script>
+</body>
+</html>
