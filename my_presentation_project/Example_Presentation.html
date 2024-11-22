@@ -1,125 +1,199 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<title>Example Presentation</title>
-<link href="static/style.css" rel="stylesheet"/>
+    <meta charset="UTF-8">
+    <title>Example Presentation</title>
+    <link rel="stylesheet" href="static/style.css">
 </head>
 <body>
-<div class="sidebar" id="sidebar">
-<h3>Table of Contents</h3>
-<button class="toggle-tab" onclick="toggleSidebar()">❯</button>
-<a href="#" onclick="navigateTo(0); return false;">Introduction</a>
+    <div class="sidebar" id="sidebar">
+        <h3>Table of Contents</h3>
+        <button class="toggle-tab" onclick="toggleSidebar()">&#10095;</button>
+        <a href="#" onclick="navigateTo(0); return false;">Introduction</a>
 <a href="#" onclick="navigateTo(1); return false;">Philosophy</a>
 <a href="#" onclick="navigateTo(2); return false;">Data Preparation</a>
 <a href="#" onclick="navigateTo(3); return false;">Modeling</a>
 <a href="#" onclick="navigateTo(4); return false;">Conclusion</a>
-</div>
-<div class="container">
-<div class="header">
-<h1>Example Presentation</h1>
-</div>
-<div class="content" id="content">
-<div class="section dark" id="section-0">
-<div class="content-wrapper">
-<div class="text-content">
-<h1>Example Presentation</h1>
-<h3>by Marc Carnovale</h3>
-<p>November 21, 2024</p>
-</div>
-</div>
-</div>
-<div class="section" id="section-1">
-<div class="content-wrapper">
-<div class="text-content">
-            Welcome to the presentation!
-            This section introduces the topic and sets the context.
+<a href="#" onclick="navigateTo(5); return false;">Thank You</a>
+
+    </div>
+    <div class="container">
+        <div class="header">
+            <h1>Example Presentation</h1>
         </div>
-<div class="image-content">
-<img alt="Section Image" src="images/Placeholder+Image.png"/>
+        <div class="content" id="content">
+            <div class="section dark">
+    <div class="content-wrapper">
+        <div class="text-content">
+            <h1>Example Presentation</h1>
+            <h3>by Marc Carnovale</h3>
+            <p>November 21, 2024</p>
+        </div>
+    </div>
 </div>
+
+<div class="section">
+    <div class="content-wrapper">
+        <div class="text-content">
+            <p>Welcome to the presentation!</p>
+            <p>This section introduces the topic and sets the context.</p>
+            <button class="collapsible" aria-expanded="false" aria-controls="collapsible-0-1-0">Background</button>
+            <div id="collapsible-0-1-0" class="content-panel">
+    <div class="nested-section">
+        <div class="content-wrapper">
+            <div class="text-content">
+                <p>Historical context and foundational information.</p>
+                <button class="collapsible" aria-expanded="false" aria-controls="collapsible-1-0-0">Early Developments</button>
+                <div id="collapsible-1-0-0" class="content-panel">
+        <div class="nested-section">
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <p>Key milestones in the early stages.</p>
+                </div>
+                <div class="image-content">
+                    <img src="images/Placeholder+Image.png" alt="Section Image">
+                </div>
+            </div>
+        </div>
+
+                </div>
+                <button class="collapsible" aria-expanded="false" aria-controls="collapsible-1-0-1">Modern Advances</button>
+                <div id="collapsible-1-0-1" class="content-panel">
+        <div class="nested-section">
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <p>Recent breakthroughs and current trends.</p>
+                </div>
+            </div>
+        </div>
+
+                </div>
+            </div>
+            <div class="image-content">
+                <img src="images/Placeholder+Image.png" alt="Section Image">
+            </div>
+        </div>
+    </div>
+
+            </div>
+            <button class="collapsible" aria-expanded="false" aria-controls="collapsible-0-1-1">Objectives</button>
+            <div id="collapsible-0-1-1" class="content-panel">
+    <div class="nested-section">
+        <div class="content-wrapper">
+            <div class="text-content">
+                <p>Primary goals and expected outcomes.</p>
+            </div>
+        </div>
+    </div>
+
+            </div>
+        </div>
+        <div class="image-content">
+            <img src="images/Placeholder+Image.png" alt="Section Image">
+        </div>
+    </div>
 </div>
+
+<div class="section">
+    <div class="content-wrapper">
+        <div class="text-content">
+            <h2>Guiding Principles</h2>
+            <p>Ensure training code matches production pipelines, focusing on scalability and operational efficiency.</p>
+        </div>
+    </div>
 </div>
-<div class="section" id="section-2">
-<div class="content-wrapper">
-<div class="text-content">
-<h2>Guiding Principles</h2>
-<p>Ensure training code matches production pipelines, focusing on scalability and operational efficiency.</p>
-</div>
-</div>
-</div>
-<div class="section" id="section-3">
-<div class="content-wrapper">
-<div class="text-content">
+
+<div class="section">
+    <div class="content-wrapper">
+        <div class="text-content">
             Steps to clean the data and handle missing values.
             Techniques used for data preprocessing.
-            <button class="collapsible">Handling Missing Values</button>
-<div class="content-panel">
-<p>Imputation with mean.</p>
-<p>Dropping incomplete records.</p>
+            <button class="collapsible" aria-expanded="false" aria-controls="collapsible-0-3-0">Handling Missing Values</button>
+            <div id="collapsible-0-3-0" class="content-panel">
+    <div class="nested-section">
+        <div class="content-wrapper">
+            <div class="text-content">
+                Imputation with mean.
+                Dropping incomplete records.
+            </div>
+        </div>
+    </div>
+
+            </div>
+        </div>
+        <div class="image-content">
+            <img src="images/Placeholder+Image.png" alt="Section Image">
+        </div>
+    </div>
 </div>
-</div>
-<div class="image-content">
-<img alt="Section Image" src="images/Placeholder+Image.png"/>
-</div>
-</div>
-</div>
-<div class="section" id="section-4">
-<div class="content-wrapper">
-<div class="text-content">
+
+<div class="section">
+    <div class="content-wrapper">
+        <div class="text-content">
             Overview of the predictive models used.
             Evaluation metrics and results interpretation.
         </div>
-<div class="image-content">
-<img alt="Section Image" src="images/Placeholder+Image.png"/>
+        <div class="image-content">
+            <img src="images/Placeholder+Image.png" alt="Section Image">
+        </div>
+    </div>
 </div>
-</div>
-</div>
-<div class="section" id="section-5" style=" position: relative;">
-<div class="content-wrapper">
-<div class="text-content">
+
+<div class="section">
+    <div class="content-wrapper">
+        <div class="text-content">
             Summary of key findings.
             Next steps and future work.
         </div>
+    </div>
 </div>
-<div class="overlay" onclick="window.location.href='end_slide.html'"></div></div>
+
+<div class="section">
+    <div class="content-wrapper">
+        <div class="text-content">
+            <h2>Thank You!</h2>
+            <p>Your questions?</p>
+            <p>Feel free to reach out for further discussions.</p>
+        </div>
+    </div>
 </div>
-</div>
-<script>
+
+
+        </div>
+    </div>
+    <script>
         let currentIndex = 0;
-        const sections = document.querySelectorAll('.section');
+        const mainSections = document.querySelectorAll('.section');
         const tocLinks = document.querySelectorAll('.sidebar a');
 
-        function toggleBackground(index) {
-            const body = document.body;
-            if (index === 0) {
-                body.classList.add('dark-background');
-            } else {
-                body.classList.remove('dark-background');
-            }
+        // Initialize the first section as active
+        if (mainSections.length > 0) {
+            mainSections[0].classList.add('active');
+            toggleBackground(0);
         }
 
         function navigateTo(tocIndex) {
-            let targetIndex = tocIndex + 1; // TOC link 0 corresponds to section 1
-            if (targetIndex < 0 || targetIndex >= sections.length) return;
+            if (tocIndex < 0 || tocIndex >= mainSections.length - 1) return;
+
             // Remove active class from current section
-            sections[currentIndex].classList.remove('active');
+            mainSections[currentIndex].classList.remove('active');
+
             // Remove active class from previous TOC link
             if (currentIndex > 0) { // TOC links start from section 1
                 tocLinks[currentIndex - 1].classList.remove('active');
             }
+
             // Set new currentIndex
-            currentIndex = targetIndex;
-            sections[currentIndex].classList.add('active');
+            currentIndex = tocIndex + 1;
+            mainSections[currentIndex].classList.add('active');
             tocLinks[tocIndex].classList.add('active');
+
             toggleBackground(currentIndex);
         }
 
         function next() {
-            if (currentIndex < sections.length - 1) {
-                let tocIndex = currentIndex; // currentIndex corresponds to the TOC index for next slide
-                navigateTo(tocIndex);
+            if (currentIndex < mainSections.length - 1) {
+                navigateTo(currentIndex);
             }
         }
 
@@ -135,22 +209,34 @@
             }
         });
 
-        document.querySelectorAll('.collapsible').forEach(button => {
-            button.addEventListener('click', () => {
-                button.classList.toggle('active');
-                const panel = button.nextElementSibling;
-                panel.classList.toggle('active');
+        // Updated collapsible event listeners using aria-controls
+        document.addEventListener('DOMContentLoaded', () => {
+            const collapsibles = document.querySelectorAll('.collapsible');
+            console.log(`Found ${collapsibles.length} collapsible buttons.`);
+            collapsibles.forEach(button => {
+                button.addEventListener('click', () => {
+                    console.log(`Collapsible button clicked: ${button.textContent}`);
+                    button.classList.toggle('active');
+                    const panelId = button.getAttribute('aria-controls');
+                    const panel = document.getElementById(panelId);
+                    if (panel) {
+                        panel.classList.toggle('active');
+                        console.log(`Toggled content panel: ${panelId}`);
+                    } else {
+                        console.error(`No content panel found with id: ${panelId}`);
+                    }
+                });
             });
         });
 
-        window.onload = function() {
-            if (sections.length > 0) {
-                sections[0].classList.add('active');
-                toggleBackground(0);
-                // No TOC link active for title slide
+        // Function to toggle background based on slide index
+        function toggleBackground(index) {
+            if (mainSections[index].classList.contains('dark')) {
+                document.body.classList.add('dark-background');
+            } else {
+                document.body.classList.remove('dark-background');
             }
-        };
-    
+        }
     </script>
 </body>
 </html>

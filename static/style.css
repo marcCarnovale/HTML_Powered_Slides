@@ -102,7 +102,7 @@ body {
 }
 
 /* Section styles */
-.section {
+.section, .nested-section {
     display: none;
     width: 100%;
     height: 100%;
@@ -110,7 +110,7 @@ body {
     position: relative;
 }
 
-.section.active {
+.section.active, .nested-section.active {
     display: block;
 }
 
@@ -165,6 +165,7 @@ body {
     display: none;
     padding: 10px;
     background-color: #f9f9f9;
+    overflow: hidden;
     border-radius: 5px;
 }
 
@@ -227,3 +228,21 @@ body {
     }
 }
 
+
+
+/* Ensure end slide has distinct styling if desired */
+.section:last-of-type {
+    /* Example: Different background color for the end slide */
+    background-color: #2c3e50; /* Dark theme */
+    color: white;
+}
+
+/* Optional: Additional styles for the end slide */
+.end-slide-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+    text-align: center;
+}
