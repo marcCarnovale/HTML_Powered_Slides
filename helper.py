@@ -1,3 +1,4 @@
+# helper.py
 import os
 import re
 import shutil
@@ -18,32 +19,15 @@ def generate_toc(sections: List[Dict[str, Any]]) -> str:
     return toc_html
 
 def generate_section_content(sections: List[Dict[str, Any]], level: int = 0) -> str:
-    """
-    Recursively generate HTML content for sections with nested folds.
-    
-    Args:
-        sections (List[Dict[str, Any]]): A list of section dictionaries.
-        level (int): Current nesting level for indentation.
-    
-    Returns:
-        str: HTML string for all sections.
-    """
     sections_html = ""
     indent = "    " * level  # Indentation for readability
-    for i, section in enumerate(sections):
-        # Assign 'section' class only to top-level sections
-        if level == 0:
-            classes = "section"
-            if section.get("dark"):
-                classes += " dark"
-            sections_html += f'{indent}<div class="{classes}">\n'
-        else:
-            # Use a different class for nested folds
-            classes = "nested-section"
-            if section.get("dark"):
-                classes += " dark"
-            sections_html += f'{indent}<div class="{classes}">\n'
 
+    for i, section in enumerate(sections):
+        # Top-level or nested sections
+        classes = "section" if level == 0 else "nested-section"
+        if section.get("dark"):
+            classes += " dark"
+        sections_html += f'{indent}<div class="{classes}">\n'
         sections_html += f'{indent}    <div class="content-wrapper">\n'
         sections_html += f'{indent}        <div class="text-content">\n'
 
@@ -53,11 +37,10 @@ def generate_section_content(sections: List[Dict[str, Any]], level: int = 0) -> 
 
         # Handle collapsible sections (folds)
         for j, fold in enumerate(section.get("folds", [])):
-            unique_id = f"collapsible-{level}-{i}-{j}"
+            unique_id = f"collapsible-{level}-{i}-{j}"  # Unique ID for each fold
             sections_html += f'{indent}            <button class="collapsible" aria-expanded="false" aria-controls="{unique_id}">{fold["title"]}</button>\n'
             sections_html += f'{indent}            <div id="{unique_id}" class="content-panel">\n'
-            # Recursive call for nested folds
-            sections_html += generate_section_content([fold], level + 1)
+            sections_html += generate_section_content([fold], level + 1)  # Recursive call for nested folds
             sections_html += f'{indent}            </div>\n'
 
         sections_html += f'{indent}        </div>\n'
@@ -72,7 +55,9 @@ def generate_section_content(sections: List[Dict[str, Any]], level: int = 0) -> 
 
         sections_html += f'{indent}    </div>\n'
         sections_html += f'{indent}</div>\n\n'
+
     return sections_html
+
 
 def copy_images(
     sections: List[Dict[str, Any]],

@@ -1,9 +1,13 @@
+<!-- templates/core.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Example Presentation</title>
-    <link rel="stylesheet" href="static/style.css">
+    <!-- Link to Core CSS -->
+    <link rel="stylesheet" href="static/css/core.css">
+    <!-- Link to Theme CSS -->
+    <link id="theme-link" rel="stylesheet" href="static/css/themes/style-blue.css">
 </head>
 <body>
     <div class="sidebar" id="sidebar">
@@ -161,82 +165,7 @@
 
         </div>
     </div>
-    <script>
-        let currentIndex = 0;
-        const mainSections = document.querySelectorAll('.section');
-        const tocLinks = document.querySelectorAll('.sidebar a');
-
-        // Initialize the first section as active
-        if (mainSections.length > 0) {
-            mainSections[0].classList.add('active');
-            toggleBackground(0);
-        }
-
-        function navigateTo(tocIndex) {
-            if (tocIndex < 0 || tocIndex >= mainSections.length - 1) return;
-
-            // Remove active class from current section
-            mainSections[currentIndex].classList.remove('active');
-
-            // Remove active class from previous TOC link
-            if (currentIndex > 0) { // TOC links start from section 1
-                tocLinks[currentIndex - 1].classList.remove('active');
-            }
-
-            // Set new currentIndex
-            currentIndex = tocIndex + 1;
-            mainSections[currentIndex].classList.add('active');
-            tocLinks[tocIndex].classList.add('active');
-
-            toggleBackground(currentIndex);
-        }
-
-        function next() {
-            if (currentIndex < mainSections.length - 1) {
-                navigateTo(currentIndex);
-            }
-        }
-
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            sidebar.classList.toggle('minimized');
-        }
-
-        document.getElementById('content').addEventListener('click', function(event) {
-            const tagName = event.target.tagName.toLowerCase();
-            if (!['button', 'a', 'img', 'input', 'textarea'].includes(tagName)) {
-                next();
-            }
-        });
-
-        // Updated collapsible event listeners using aria-controls
-        document.addEventListener('DOMContentLoaded', () => {
-            const collapsibles = document.querySelectorAll('.collapsible');
-            console.log(`Found ${collapsibles.length} collapsible buttons.`);
-            collapsibles.forEach(button => {
-                button.addEventListener('click', () => {
-                    console.log(`Collapsible button clicked: ${button.textContent}`);
-                    button.classList.toggle('active');
-                    const panelId = button.getAttribute('aria-controls');
-                    const panel = document.getElementById(panelId);
-                    if (panel) {
-                        panel.classList.toggle('active');
-                        console.log(`Toggled content panel: ${panelId}`);
-                    } else {
-                        console.error(`No content panel found with id: ${panelId}`);
-                    }
-                });
-            });
-        });
-
-        // Function to toggle background based on slide index
-        function toggleBackground(index) {
-            if (mainSections[index].classList.contains('dark')) {
-                document.body.classList.add('dark-background');
-            } else {
-                document.body.classList.remove('dark-background');
-            }
-        }
-    </script>
+    <!-- Link to JavaScript -->
+    <script src="static/js/script.js"></script>
 </body>
 </html>

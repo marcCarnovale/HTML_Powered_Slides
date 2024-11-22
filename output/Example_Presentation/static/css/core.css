@@ -1,7 +1,15 @@
+/* static/css/core.css */
+
 /* General styles */
-body {
+body, html {
     margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
     font-family: Arial, sans-serif;
+}
+
+body {
     display: flex;
     overflow: hidden;
 }
@@ -13,7 +21,7 @@ body {
     left: 0;
     bottom: 0;
     width: 250px;
-    background: #333;
+    background: var(--sidebar-bg, #333); /* Default to dark grey if not set */
     color: white;
     overflow: hidden;
     transition: width 0.3s ease;
@@ -49,7 +57,7 @@ body {
 }
 
 .sidebar a:hover, .sidebar a.active {
-    background: #555;
+    background: var(--sidebar-hover-bg, #555); /* Default hover */
 }
 
 /* Toggle tab styles */
@@ -58,7 +66,7 @@ body {
     right: 0;
     top: 50%;
     transform: translateY(-50%);
-    background: #333;
+    background: var(--toggle-bg, #333);
     color: white;
     border: none;
     width: 20px;
@@ -89,7 +97,7 @@ body {
 }
 
 .header {
-    background: #333;
+    background: var(--header-bg, #333);
     color: white;
     padding: 10px;
     text-align: center;
@@ -105,8 +113,8 @@ body {
 .section, .nested-section {
     display: none;
     width: 100%;
-    height: 100%;
-    overflow-y: auto;
+    /* Removed height: 100% to allow content to determine height */
+    overflow: hidden;
     position: relative;
 }
 
@@ -120,7 +128,7 @@ body {
     gap: 20px;
     justify-content: flex-start; /* Left-aligned */
     align-items: flex-start; /* Top-aligned */
-    height: 100%;
+    /* Removed height: 100% to allow content to determine height */
     box-sizing: border-box;
 }
 
@@ -138,15 +146,9 @@ body {
     height: auto;
 }
 
-/* Dark theme for title slide */
-.section.dark {
-    background-color: #2c3e50;
-    color: white;
-}
-
-/* Collapsible content styles */
+/* Collapsible button styling */
 .collapsible {
-    background-color: #e7e7e7;
+    background-color: var(--collapsible-bg, #e7e7e7); /* Default light grey */
     padding: 10px;
     border: none;
     width: 100%;
@@ -158,19 +160,36 @@ body {
 }
 
 .collapsible.active {
-    background-color: #ccc;
+    background-color: var(--collapsible-active-bg, #ccc); /* Default medium grey */
 }
 
+/* Default state for content-panel */
 .content-panel {
-    display: none;
-    padding: 10px;
-    background-color: #f9f9f9;
-    overflow: hidden;
+    max-height: 0; /* Collapsed by default */
+    overflow: hidden; /* Prevent overflowing content */
+    transition: max-height 0.3s ease-out, padding 0.3s ease-out; /* Smooth transition */
+    padding: 0; /* Remove padding in collapsed state */
+    background-color: var(--content-panel-bg, #f9f9f9); /* Default very light grey */
     border-radius: 5px;
 }
 
 .content-panel.active {
+    max-height: 1000px; /* Arbitrarily large value for expansion */
+    padding: 10px; /* Add padding in expanded state */
+}
+
+/* Ensure nested sections are visible when their parent content-panel is active */
+.content-panel.active .nested-section {
     display: block;
+}
+
+/* Nested collapsible styling */
+.content-panel .collapsible {
+    margin-left: 20px; /* Indent nested collapsibles */
+}
+
+.content-panel .content-panel {
+    margin-left: 20px; /* Further indent for deeper levels */
 }
 
 /* Overlay styles */
@@ -188,16 +207,7 @@ body {
 
 /* Highlighting current TOC link */
 .sidebar a.active {
-    background: #555;
-}
-
-/* General styles */
-body, html {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    font-family: Arial, sans-serif;
+    background: var(--sidebar-active-bg, #555);
 }
 
 /* Container for Thank You page */
@@ -209,16 +219,9 @@ body, html {
     height: 100%;
     aspect-ratio: 16 / 9;
     box-sizing: border-box;
-    background-color: #2c3e50; /* Matching dark theme if desired */
+    background-color: var(--end-slide-bg, #2c3e50); /* Default dark blue-grey */
     color: white;
     text-align: center;
-}
-
-/* Ensure aspect ratio is maintained */
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 /* Responsive adjustments */
@@ -226,23 +229,4 @@ body {
     .end-slide-container {
         padding: 20px;
     }
-}
-
-
-
-/* Ensure end slide has distinct styling if desired */
-.section:last-of-type {
-    /* Example: Different background color for the end slide */
-    background-color: #2c3e50; /* Dark theme */
-    color: white;
-}
-
-/* Optional: Additional styles for the end slide */
-.end-slide-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    height: 100%;
-    text-align: center;
 }
