@@ -1,0 +1,162 @@
+<!-- templates/core.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Example Presentation</title>
+    <!-- Link to Core CSS -->
+    <link rel="stylesheet" href="static/css/core.css">
+    <!-- Link to Theme CSS -->
+    <link id="theme-link" rel="stylesheet" href="static/css/themes/style-dark.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <button class="toggle-content-first" id="toggle-content-first">Hide Sidebar</button>
+    <div class="sidebar" id="sidebar">
+        <h3>Table of Contents</h3>
+        <button class="toggle-tab" onclick="toggleSidebar()">&#10095;</button>
+        <a href="#" onclick="navigateTo(0); return false;">Introduction</a>
+<a href="#" onclick="navigateTo(1); return false;">Philosophy</a>
+<a href="#" onclick="navigateTo(2); return false;">Data Preparation</a>
+<a href="#" onclick="navigateTo(3); return false;">Modeling</a>
+<a href="#" onclick="navigateTo(4); return false;">Conclusion</a>
+<a href="#" onclick="navigateTo(5); return false;">Thank You</a>
+
+    </div>
+    <div class="container">
+        <div class="header">
+            <h1>Example Presentation</h1>
+        <!-- Breadcrumbs -->
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+                <ol>
+    <li><a href="#" onclick="navigateTo(0); return false;"></a></li>
+    <li><a href="#" onclick="navigateTo(1); return false;">Introduction</a></li>
+    <li><a href="#" onclick="navigateTo(2); return false;">Philosophy</a></li>
+    <li><a href="#" onclick="navigateTo(3); return false;">Data Preparation</a></li>
+    <li><a href="#" onclick="navigateTo(4); return false;">Modeling</a></li>
+    <li><a href="#" onclick="navigateTo(5); return false;">Conclusion</a></li>
+    <li><a href="#" onclick="navigateTo(6); return false;">Thank You</a></li>
+</ol>
+            </nav>
+        </div>
+        <div class="content" id="content">
+            <div class="section dark">
+    <div class="content-wrapper">
+        <div class="text-content">
+            <p><h1>Example Presentation</h1></p>
+            <p><h3>by Marc Carnovale</h3></p>
+            <p><p>November 21, 2024</p></p>
+        </div>
+    </div>
+</div>
+
+<div class="section">
+    <div class="content-wrapper">
+        <div class="text-content">
+            <p><p>Welcome to the presentation!</p></p>
+            <p><p>This section introduces the topic and sets the context.</p></p>
+        <button class="collapsible" aria-expanded="false" aria-controls="collapsible-0-1-0">Background</button>
+        <div id="collapsible-0-1-0" class="content-panel">
+            <p><p>Historical context and foundational information.</p></p>
+    <div class="nested-section">
+        <div class="content-wrapper">
+            <div class="text-content">
+                <p><p>Historical context and foundational information.</p></p>
+            <button class="collapsible" aria-expanded="false" aria-controls="collapsible-1-0-0">Early Developments</button>
+            <div id="collapsible-1-0-0" class="content-panel">
+                <p><p>Key milestones in the early stages.</p></p>
+            </div>
+            <button class="collapsible" aria-expanded="false" aria-controls="collapsible-1-0-1">Modern Advances</button>
+            <div id="collapsible-1-0-1" class="content-panel">
+                <p><p>Recent breakthroughs and current trends.</p></p>
+            </div>
+            </div>
+            <div class="image-content">
+                <img src="images/Placeholder+Image.png" alt="Background Image">
+            </div>
+        </div>
+    </div>
+
+        </div>
+        <button class="collapsible" aria-expanded="false" aria-controls="collapsible-0-1-1">Objectives</button>
+        <div id="collapsible-0-1-1" class="content-panel">
+            <p><p>Primary goals and expected outcomes.</p></p>
+        </div>
+        </div>
+        <div class="image-content">
+            <img src="images/Placeholder+Image.png" alt="Introduction Image">
+        </div>
+    </div>
+</div>
+
+<div class="section">
+    <div class="content-wrapper">
+        <div class="text-content">
+            <p><h2>Guiding Principles</h2></p>
+            <p><p>Ensure training code matches production pipelines, focusing on scalability and operational efficiency.</p></p>
+        </div>
+    </div>
+</div>
+
+<div class="section">
+    <div class="content-wrapper">
+        <div class="text-content">
+            <p>Steps to clean the data and handle missing values.</p>
+            <p>Techniques used for data preprocessing.</p>
+        <button class="collapsible" aria-expanded="false" aria-controls="collapsible-0-3-0">Handling Missing Values</button>
+        <div id="collapsible-0-3-0" class="content-panel">
+            <p>Imputation with mean.</p>
+            <p>Dropping incomplete records.</p>
+        </div>
+        </div>
+        <div class="image-content">
+            <img src="images/Placeholder+Image.png" alt="Data Preparation Image">
+        </div>
+    </div>
+</div>
+
+<div class="section">
+    <div class="content-wrapper">
+        <div class="text-content">
+            <p>Overview of the predictive models used.</p>
+            <p>Evaluation metrics and results interpretation.</p>
+        <button class="collapsible" aria-expanded="false" aria-controls="collapsible-0-4-0">Data Overview2</button>
+        <div id="collapsible-0-4-0" class="content-panel">
+            <div class="chart-container" data-chart-data='{"type": "bar", "data": {"labels": ["January", "February", "March", "April"], "datasets": [{"label": "Sales", "data": [50, 60, 70, 80], "backgroundColor": "rgba(75, 192, 192, 0.2)", "borderColor": "rgba(75, 192, 192, 1)", "borderWidth": 1}]}, "options": {"scales": {"y": {"beginAtZero": true}}}}'>
+                <canvas></canvas>
+            </div>
+            <p>This section provides an overview of data trends.</p>
+        </div>
+        </div>
+        <div class="image-content">
+            <img src="images/Placeholder+Image.png" alt="Modeling Image">
+        </div>
+    </div>
+</div>
+
+<div class="section">
+    <div class="content-wrapper">
+        <div class="text-content">
+            <p>Summary of key findings.</p>
+            <p>Next steps and future work.</p>
+        </div>
+    </div>
+</div>
+
+<div class="section">
+    <div class="content-wrapper">
+        <div class="text-content">
+            <p><h2>Thank You!</h2></p>
+            <p><p>Your questions?</p></p>
+            <p><p>Feel free to reach out for further discussions.</p></p>
+        </div>
+    </div>
+</div>
+
+
+        </div>
+    </div>
+    <!-- Link to JavaScript -->
+    <script src="static/js/script.js"></script>
+</body>
+</html>
