@@ -266,4 +266,5 @@ document.addEventListener('DOMContentLoaded', () => {
     CollapsibleManager.setupCollapsibles();
     ContentManager.setupContentClick();
     SidebarManager.setupSidebarToggle();
+    ContentFirstManager.setupContentFirstToggle(); // Initialize Content-First toggle
 });
