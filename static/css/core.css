@@ -1,5 +1,3 @@
-/* static/css/core.css */
-
 /* General styles */
 body, html {
     margin: 0;
@@ -81,6 +79,34 @@ body {
     transform: translateY(-50%) rotate(180deg);
 }
 
+/* Content-First Mode */
+body.content-first .sidebar {
+    display: none;
+}
+
+body.content-first .container {
+    margin-left: 0;
+    width: 100%;
+}
+
+body.content-first .header {
+    display: none;
+}
+
+/* Toggle Content-First Button */
+.toggle-content-first {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background: var(--toggle-bg, #333);
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 3px;
+    z-index: 1000;
+}
+
 /* Container styles */
 .container {
     margin-left: 250px;
@@ -103,9 +129,39 @@ body {
     text-align: center;
 }
 
+.breadcrumb {
+    margin-top: 10px;
+}
+
+.breadcrumb ol {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    gap: 5px;
+}
+
+.breadcrumb li::after {
+    content: '>';
+    margin-left: 5px;
+}
+
+.breadcrumb li:last-child::after {
+    content: '';
+}
+
+.breadcrumb a {
+    text-decoration: none;
+    color: var(--breadcrumb-color, #555);
+    font-size: 14px;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
 .content {
     flex: 1;
-    overflow: hidden;
+    overflow: auto;
     position: relative;
 }
 
@@ -113,7 +169,6 @@ body {
 .section, .nested-section {
     display: none;
     width: 100%;
-    /* Removed height: 100% to allow content to determine height */
     overflow: hidden;
     position: relative;
 }
@@ -128,7 +183,6 @@ body {
     gap: 20px;
     justify-content: flex-start; /* Left-aligned */
     align-items: flex-start; /* Top-aligned */
-    /* Removed height: 100% to allow content to determine height */
     box-sizing: border-box;
 }
 
@@ -157,6 +211,14 @@ body {
     margin-top: 10px;
     cursor: pointer;
     border-radius: 5px;
+}
+
+.collapsible.level-2 {
+    background-color: var(--collapsible-bg-level-2, #d1e8e2);
+}
+
+.collapsible.level-3 {
+    background-color: var(--collapsible-bg-level-3, #b3cde0);
 }
 
 .collapsible.active {
@@ -190,6 +252,46 @@ body {
 
 .content-panel .content-panel {
     margin-left: 20px; /* Further indent for deeper levels */
+}
+
+/* Chart styles */
+.chart-container {
+    position: relative;
+    width: 100%;
+    height: 400px; /* Adjust as needed */
+    margin-top: 20px;
+}
+
+.chart-container canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* Accessibility Enhancements */
+
+/* Focus States */
+a:focus, button:focus, .collapsible:focus {
+    outline: 2px solid var(--focus-outline, #0000ff);
+    outline-offset: 2px;
+}
+
+/* High Contrast for Text */
+.text-content, .image-content, .breadcrumb a {
+    color: var(--text-color, #000);
+}
+
+/* Accessible Font Sizes */
+body {
+    font-size: 16px;
+}
+
+h1, h2, h3 {
+    font-weight: normal;
+}
+
+/* ARIA Live Regions for Dynamic Content */
+.breadcrumb {
+    aria-live: polite;
 }
 
 /* Overlay styles */
@@ -229,4 +331,67 @@ body {
     .end-slide-container {
         padding: 20px;
     }
+
+    .chart-container {
+        height: 300px;
+    }
+}
+
+/* Chart styles */
+.chart-container {
+    position: relative;
+    width: 100%;
+    height: 400px; /* Adjust as needed */
+    margin-top: 20px;
+}
+
+.chart-container canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.breadcrumb {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    padding: 5px 10px;
+    background: var(--breadcrumb-bg, #f1f1f1);
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.breadcrumb ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.breadcrumb li::after {
+    content: '>';
+    margin-left: 5px;
+    color: var(--breadcrumb-divider-color, #aaa);
+}
+
+.breadcrumb li:last-child::after {
+    content: ''; /* Remove the divider for the last breadcrumb */
+}
+
+.breadcrumb a {
+    text-decoration: none;
+    color: var(--breadcrumb-link-color, #007bff);
+    transition: color 0.3s ease;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+    color: var(--breadcrumb-link-hover-color, #0056b3);
+}
+
+.breadcrumb a.active {
+    font-weight: bold;
+    color: var(--breadcrumb-active-color, #333);
+    text-decoration: underline;
 }

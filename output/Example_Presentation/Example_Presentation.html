@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="static/css/core.css">
     <!-- Link to Theme CSS -->
     <link id="theme-link" rel="stylesheet" href="static/css/themes/style-blue.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="sidebar" id="sidebar">
@@ -24,14 +25,26 @@
     <div class="container">
         <div class="header">
             <h1>Example Presentation</h1>
+        <!-- Breadcrumbs -->
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+                <ol>
+    <li><a href="#" onclick="navigateTo(0); return false;"></a></li>
+    <li><a href="#" onclick="navigateTo(1); return false;">Introduction</a></li>
+    <li><a href="#" onclick="navigateTo(2); return false;">Philosophy</a></li>
+    <li><a href="#" onclick="navigateTo(3); return false;">Data Preparation</a></li>
+    <li><a href="#" onclick="navigateTo(4); return false;">Modeling</a></li>
+    <li><a href="#" onclick="navigateTo(5); return false;">Conclusion</a></li>
+    <li><a href="#" onclick="navigateTo(6); return false;">Thank You</a></li>
+</ol>
+            </nav>
         </div>
         <div class="content" id="content">
             <div class="section dark">
     <div class="content-wrapper">
         <div class="text-content">
-            <h1>Example Presentation</h1>
-            <h3>by Marc Carnovale</h3>
-            <p>November 21, 2024</p>
+            <p><h1>Example Presentation</h1></p>
+            <p><h3>by Marc Carnovale</h3></p>
+            <p><p>November 21, 2024</p></p>
         </div>
     </div>
 </div>
@@ -39,61 +52,19 @@
 <div class="section">
     <div class="content-wrapper">
         <div class="text-content">
-            <p>Welcome to the presentation!</p>
-            <p>This section introduces the topic and sets the context.</p>
+            <p><p>Welcome to the presentation!</p></p>
+            <p><p>This section introduces the topic and sets the context.</p></p>
             <button class="collapsible" aria-expanded="false" aria-controls="collapsible-0-1-0">Background</button>
             <div id="collapsible-0-1-0" class="content-panel">
-    <div class="nested-section">
-        <div class="content-wrapper">
-            <div class="text-content">
-                <p>Historical context and foundational information.</p>
-                <button class="collapsible" aria-expanded="false" aria-controls="collapsible-1-0-0">Early Developments</button>
-                <div id="collapsible-1-0-0" class="content-panel">
-        <div class="nested-section">
-            <div class="content-wrapper">
-                <div class="text-content">
-                    <p>Key milestones in the early stages.</p>
-                </div>
-                <div class="image-content">
-                    <img src="images/Placeholder+Image.png" alt="Section Image">
-                </div>
-            </div>
-        </div>
-
-                </div>
-                <button class="collapsible" aria-expanded="false" aria-controls="collapsible-1-0-1">Modern Advances</button>
-                <div id="collapsible-1-0-1" class="content-panel">
-        <div class="nested-section">
-            <div class="content-wrapper">
-                <div class="text-content">
-                    <p>Recent breakthroughs and current trends.</p>
-                </div>
-            </div>
-        </div>
-
-                </div>
-            </div>
-            <div class="image-content">
-                <img src="images/Placeholder+Image.png" alt="Section Image">
-            </div>
-        </div>
-    </div>
-
+                <p><p>Historical context and foundational information.</p></p>
             </div>
             <button class="collapsible" aria-expanded="false" aria-controls="collapsible-0-1-1">Objectives</button>
             <div id="collapsible-0-1-1" class="content-panel">
-    <div class="nested-section">
-        <div class="content-wrapper">
-            <div class="text-content">
-                <p>Primary goals and expected outcomes.</p>
-            </div>
-        </div>
-    </div>
-
+                <p><p>Primary goals and expected outcomes.</p></p>
             </div>
         </div>
         <div class="image-content">
-            <img src="images/Placeholder+Image.png" alt="Section Image">
+            <img src="images/Placeholder+Image.png" alt="Introduction Image">
         </div>
     </div>
 </div>
@@ -101,8 +72,8 @@
 <div class="section">
     <div class="content-wrapper">
         <div class="text-content">
-            <h2>Guiding Principles</h2>
-            <p>Ensure training code matches production pipelines, focusing on scalability and operational efficiency.</p>
+            <p><h2>Guiding Principles</h2></p>
+            <p><p>Ensure training code matches production pipelines, focusing on scalability and operational efficiency.</p></p>
         </div>
     </div>
 </div>
@@ -110,23 +81,16 @@
 <div class="section">
     <div class="content-wrapper">
         <div class="text-content">
-            Steps to clean the data and handle missing values.
-            Techniques used for data preprocessing.
+            <p>Steps to clean the data and handle missing values.</p>
+            <p>Techniques used for data preprocessing.</p>
             <button class="collapsible" aria-expanded="false" aria-controls="collapsible-0-3-0">Handling Missing Values</button>
             <div id="collapsible-0-3-0" class="content-panel">
-    <div class="nested-section">
-        <div class="content-wrapper">
-            <div class="text-content">
-                Imputation with mean.
-                Dropping incomplete records.
-            </div>
-        </div>
-    </div>
-
+                <p>Imputation with mean.</p>
+                <p>Dropping incomplete records.</p>
             </div>
         </div>
         <div class="image-content">
-            <img src="images/Placeholder+Image.png" alt="Section Image">
+            <img src="images/Placeholder+Image.png" alt="Data Preparation Image">
         </div>
     </div>
 </div>
@@ -134,11 +98,17 @@
 <div class="section">
     <div class="content-wrapper">
         <div class="text-content">
-            Overview of the predictive models used.
-            Evaluation metrics and results interpretation.
+            <p>Overview of the predictive models used.</p>
+            <p>Evaluation metrics and results interpretation.</p>
+            <button class="collapsible" aria-expanded="false" aria-controls="collapsible-0-4-0">Data Overview2</button>
+            <div id="collapsible-0-4-0" class="content-panel">
+                <div class="chart-container" data-chart-data='{"type": "bar", "data": {"labels": ["January", "February", "March", "April"], "datasets": [{"label": "Sales", "data": [50, 60, 70, 80], "backgroundColor": "rgba(75, 192, 192, 0.2)", "borderColor": "rgba(75, 192, 192, 1)", "borderWidth": 1}]}, "options": {"scales": {"y": {"beginAtZero": true}}}}'>
+                    <canvas></canvas>
+                </div>
+            </div>
         </div>
         <div class="image-content">
-            <img src="images/Placeholder+Image.png" alt="Section Image">
+            <img src="images/Placeholder+Image.png" alt="Modeling Image">
         </div>
     </div>
 </div>
@@ -146,8 +116,8 @@
 <div class="section">
     <div class="content-wrapper">
         <div class="text-content">
-            Summary of key findings.
-            Next steps and future work.
+            <p>Summary of key findings.</p>
+            <p>Next steps and future work.</p>
         </div>
     </div>
 </div>
@@ -155,9 +125,9 @@
 <div class="section">
     <div class="content-wrapper">
         <div class="text-content">
-            <h2>Thank You!</h2>
-            <p>Your questions?</p>
-            <p>Feel free to reach out for further discussions.</p>
+            <p><h2>Thank You!</h2></p>
+            <p><p>Your questions?</p></p>
+            <p><p>Feel free to reach out for further discussions.</p></p>
         </div>
     </div>
 </div>

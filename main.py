@@ -9,7 +9,8 @@ from helper import (
     sanitize_title,
     generate_toc,
     generate_section_content,
-    copy_project_images
+    copy_project_images,
+    generate_breadcrumbs
 )
 # main.py
 import argparse
@@ -68,12 +69,16 @@ def generate_html_presentation(
 
     # Generate TOC and sections
     toc_html = generate_toc(sections)
+    # Generate Breadcrumbs HTML
+    breadcrumbs_html = generate_breadcrumbs(sections)
+    # Generate sections
     sections_html = generate_section_content(sections)
 
     # Replace placeholders
     html_content = html_content.replace("{{title}}", title)
     html_content = html_content.replace("{{toc}}", toc_html)
     html_content = html_content.replace("{{sections}}", sections_html)
+    html_content = html_content.replace("{{breadcrumbs}}", breadcrumbs_html)
     html_content = html_content.replace("{{theme_css}}", theme_css)
 
     # Write the main presentation HTML to the output folder
@@ -394,14 +399,42 @@ def main():
                     }
                 ],
                 "image": "Placeholder+Image.png"  # Relative to images_source_dir or output/images/
-            },
+            }, 
             {
                 "title": "Modeling",
                 "content": [
                     "Overview of the predictive models used.",
                     "Evaluation metrics and results interpretation."
                 ],
-                "image": "Placeholder+Image.png"  # Relative to images_source_dir or output/images/
+                "image": "Placeholder+Image.png",  # Relative to images_source_dir or output/images/
+                "folds": [
+                    {
+                        "title": "Data Overview2",
+                        "content": [
+                            "This section provides an overview of data trends."
+                        ],
+                        "chart": {
+                            "type": "bar",
+                            "data": {
+                                "labels": ["January", "February", "March", "April"],
+                                "datasets": [{
+                                    "label": "Sales",
+                                    "data": [50, 60, 70, 80],
+                                    "backgroundColor": "rgba(75, 192, 192, 0.2)",
+                                    "borderColor": "rgba(75, 192, 192, 1)",
+                                    "borderWidth": 1
+                                }]
+                            },
+                            "options": {
+                                "scales": {
+                                    "y": {
+                                        "beginAtZero": True
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ]
             },
             {
                 "title": "Conclusion",

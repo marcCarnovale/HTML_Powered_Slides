@@ -17,6 +17,8 @@ const SectionManager = (() => {
             mainSections[currentIndex].classList.add('active'); // Mark the first slide as active
             document.body.classList.add('dark-background'); // Add dark theme for the first slide
             log('Initialized with the first slide active.');
+            // Update breadcrumb
+            BreadcrumbManager.updateBreadcrumb(); // Initialize breadcrumb
         }
     }
 
@@ -62,6 +64,8 @@ const SectionManager = (() => {
         }
 
         log(`Navigated to section index: ${currentIndex}`);
+        // Update breadcrumb
+        BreadcrumbManager.updateBreadcrumb();
     }
 
     function nextSection() {
@@ -90,12 +94,55 @@ const TOCManager = (() => {
     return { setupTOCNavigation };
 })();
 
-// Collapsible Management
+// Chart Management
+// Chart Management
+const ChartManager = (() => {
+    function initializeCharts() {
+        const charts = document.querySelectorAll('.chart-container');
+        charts.forEach(chartEl => {
+            if (chartEl.dataset.chartInitialized) {
+                return; // Prevent multiple initializations
+            }
+
+            const ctx = chartEl.querySelector('canvas').getContext('2d');
+            let chartData;
+            try {
+                chartData = JSON.parse(chartEl.getAttribute('data-chart-data'));
+            } catch (e) {
+                log(`Invalid chart data in panel: ${chartEl.id}`, "error");
+                return;
+            }
+
+            new Chart(ctx, {
+                type: chartData.type,
+                data: chartData.data,
+                options: chartData.options,
+            });
+
+            chartEl.dataset.chartInitialized = true;
+            log(`Initialized chart in panel: ${chartEl.id}`);
+        });
+    }
+
+    return { initializeCharts };
+})();
+
+
+// Collapsible Management (Updated to initialize charts when panel becomes active)
 const CollapsibleManager = (() => {
     function setupCollapsibles() {
         const collapsibles = document.querySelectorAll('.collapsible');
         log(`Found ${collapsibles.length} collapsible buttons.`);
         collapsibles.forEach(button => {
+            // Determine nesting level
+            let level = 1;
+            let parent = button.parentElement;
+            while (parent && parent.classList.contains('content-panel')) {
+                level++;
+                parent = parent.parentElement;
+            }
+            button.classList.add(`level-${level}`);
+
             button.addEventListener('click', (event) => {
                 event.stopPropagation(); // Prevent event bubbling to parent elements
                 log(`Collapsible button clicked: ${button.textContent}`);
@@ -107,7 +154,12 @@ const CollapsibleManager = (() => {
                     panel.classList.toggle('active');
                     log(`Toggled panel: ${panelId}, Now Active: ${panel.classList.contains('active')}`);
 
-                    // No need to manipulate maxHeight in JS; CSS handles transitions
+                    // If panel becomes active, initialize any charts inside it
+                    if (panel.classList.contains('active')) {
+                        ChartManager.initializeCharts();
+                    }
+                    
+
                     // Remove any inline styles to rely solely on CSS for transitions
                     panel.style.maxHeight = null;
 
@@ -122,6 +174,7 @@ const CollapsibleManager = (() => {
 
     return { setupCollapsibles };
 })();
+
 
 // Content Click Handling
 const ContentManager = (() => {
@@ -169,10 +222,47 @@ const SidebarManager = (() => {
     return { setupSidebarToggle };
 })();
 
+
+const BreadcrumbManager = (() => {
+    function updateBreadcrumb() {
+        const breadcrumbs = document.querySelector('.breadcrumb ol');
+        const mainSections = document.querySelectorAll('.section');
+        const breadcrumbLinks = breadcrumbs.querySelectorAll('a');
+
+        mainSections.forEach((section, index) => {
+            if (section.classList.contains('active')) {
+                breadcrumbLinks.forEach((link, i) => {
+                    if (i === index) {
+                        link.classList.add('active');
+                    } else {
+                        link.classList.remove('active');
+                    }
+                });
+            }
+        });
+    }
+
+    function setupBreadcrumbNavigation() {
+        const breadcrumbLinks = document.querySelectorAll('.breadcrumb a');
+        breadcrumbLinks.forEach((link, index) => {
+            link.addEventListener('click', (event) => {
+                event.preventDefault();
+                SectionManager.goToSection(index); // Navigate to the selected section
+            });
+        });
+    }
+
+    return { updateBreadcrumb, setupBreadcrumbNavigation };
+})();
+
+
+
 // Initialize Everything
 document.addEventListener('DOMContentLoaded', () => {
     SectionManager.initialize();
     TOCManager.setupTOCNavigation();
+    BreadcrumbManager.setupBreadcrumbNavigation(); // Initialize breadcrumb navigation
+    BreadcrumbManager.updateBreadcrumb(); // Initialize breadcrumb state
     CollapsibleManager.setupCollapsibles();
     ContentManager.setupContentClick();
     SidebarManager.setupSidebarToggle();
