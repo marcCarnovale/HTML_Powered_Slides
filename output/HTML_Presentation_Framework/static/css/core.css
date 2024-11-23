@@ -165,19 +165,15 @@ body.content-first .header {
     position: relative;
 }
 
-.content img {
-    padding:2%;
-}
-
-/* Section styles */
-.section, .nested-section {
+/* slide styles */
+.slide, .nested-slide {
     display: none;
     width: 100%;
     overflow: hidden;
     position: relative;
 }
 
-.section.active, .nested-section.active {
+.slide.active, .nested-slide.active {
     display: block;
 }
 
@@ -244,8 +240,8 @@ body.content-first .header {
     padding: 10px; /* Add padding in expanded state */
 }
 
-/* Ensure nested sections are visible when their parent content-panel is active */
-.content-panel.active .nested-section {
+/* Ensure nested slides are visible when their parent content-panel is active */
+.content-panel.active .nested-slide {
     display: block;
 }
 
