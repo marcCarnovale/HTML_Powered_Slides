@@ -9,6 +9,18 @@ def sanitize_title(title: str) -> str:
     """Sanitize the presentation title to create a valid filename."""
     return re.sub(r'[^a-zA-Z0-9_\-]', '', title.replace(' ', '_'))
 
+def is_html(content: str) -> bool:
+    """
+    Determine if the content string contains any HTML tags.
+
+    Args:
+        content (str): The content string to check.
+
+    Returns:
+        bool: True if content contains HTML tags, False otherwise.
+    """
+    return bool(re.search(r'<[^>]+>', content))
+
 def generate_toc(sections: List[Dict[str, Any]]) -> str:
     """Generate the Table of Contents (TOC) HTML based on main sections."""
     toc_html = ""
@@ -72,9 +84,12 @@ def generate_section_content(sections: List[Dict[str, Any]], level: int = 0) -> 
         sections_html += f'{indent}    <div class="content-wrapper">\n'
         sections_html += f'{indent}        <div class="text-content">\n'
 
-        # Add main content
+        # Add main content with conditional wrapping
         for content in section.get("content", []):
-            sections_html += f'{indent}            <p>{content}</p>\n'
+            if is_html(content):
+                sections_html += f'{indent}            {content}\n'
+            else:
+                sections_html += f'{indent}            <p>{content}</p>\n'
 
         # Handle collapsible sections (folds)
         for j, fold in enumerate(section.get("folds", [])):
@@ -95,6 +110,7 @@ def generate_section_content(sections: List[Dict[str, Any]], level: int = 0) -> 
         sections_html += f'{indent}</div>\n\n'
 
     return sections_html
+
 
 
 def copy_images(
