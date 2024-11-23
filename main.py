@@ -312,8 +312,8 @@ def main():
     parser.add_argument('--config', type=str, default=None,
                         help='Path to the presentation configuration file (JSON or YAML).')
     parser.add_argument('--theme', type=str, default='dark',
-                        choices=['dark', 'blue'],
-                        help='Theme of the presentation. Options: "dark" (default), "blue".')
+                        choices=['dark', 'blue', 'seafoam'],
+                        help='Theme of the presentation. Options: "dark" (default), "blue", "seafoam".')
     args = parser.parse_args()
 
     # Load presentation configuration
@@ -473,7 +473,8 @@ def main():
     # Determine the theme CSS file
     theme_mapping = {
         'dark': 'style-dark.css',
-        'blue': 'style-blue.css'
+        'blue': 'style-blue.css',
+        'seafoam': 'style-seafoam.css',
     }
 
     selected_theme = args.theme.lower()
