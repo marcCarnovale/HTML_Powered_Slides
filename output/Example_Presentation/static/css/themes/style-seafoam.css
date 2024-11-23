@@ -61,15 +61,28 @@
     text-align: center;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Shadow for depth */
     z-index: 5; /* Below sidebar */
-    position: fixed;
     top: 0;
-    left: 250px; /* Matches the sidebar's width */
     right: 0;
     height: 60px; /* Fixed height for header */
 }
 
+.breadcrumb {
+    margin-top: 10px; /* Create space between breadcrumbs and other header content */
+    position: relative; /* Ensure breadcrumbs sit within their parent container */
+}
+
 .sidebar.minimized ~ .header {
     left: 40px; /* Adjust when sidebar is minimized */
+}
+
+/* Content */
+.content {
+    flex: 1;
+    overflow: auto;
+    position: relative;
+    padding-top: 100px; /* Adjusted padding to account for both the header and breadcrumbs */
+    padding-left: 10px; /* Optional: Add left padding for better alignment */
+    padding-right: 10px; /* Optional: Add right padding for symmetry */
 }
 
 /* Collapsible Styles */
