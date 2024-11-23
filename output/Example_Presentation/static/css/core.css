@@ -405,3 +405,95 @@ h1, h2, h3 {
     left: 40px; /* Matches the width of the minimized sidebar */
     width: calc(100% - 40px); /* Adjust header width to fill remaining space */
 }
+
+.row {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.columns {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.column {
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+/* Responsive columns */
+@media (max-width: 800px) {
+    .row, .columns {
+        flex-direction: column;
+    }
+}
+
+/* Resizable Columns */
+.resizable {
+    resize: horizontal;
+    overflow: auto;
+    min-width: 100px;
+}
+
+/* Additional styles for better visuals */
+.row, .columns {
+    gap: 10px;
+}
+
+.column {
+    background-color: #f1f1f1;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Optional: Style for dynamic resizing indicators */
+.column-resizer {
+    width: 5px;
+    cursor: ew-resize;
+    background-color: #ddd;
+    position: relative;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.text-content {
+    display: block;
+}
+
+
+.column-resizer {
+    width: 5px;
+    background-color: #ddd;
+    cursor: ew-resize;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 100;
+}
+
+.sidebar a:focus,
+.toggle-tab:focus,
+.button:focus,
+.collapsible:focus {
+    outline: 2px solid var(--focus-outline, #61c10000); /* Use theme-defined color */
+    outline-offset: 2px; /* Add spacing between the element and outline */
+}
+
+/* Focus style for sidebar TOC navigation buttons */
+.sidebar a:focus {
+    outline: 2px solid var(--focus-outline, #1a201e6b); /* Custom theme color for TOC links */
+    outline-offset: 2px; /* Offset for clarity */
+}
+
+
+/* Sidebar Toggle Tab */
+.toggle-tab {
+    background: none; /* Transparent */
+    border: none; /* Seafoam border */
+}
+

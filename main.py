@@ -132,39 +132,19 @@ def copy_static_files(output_folder: str):
         print(f"JavaScript file not found at {script_js_source}.")
         exit(1)
 
-def main():
-    # Parse command-line arguments
-    parser = argparse.ArgumentParser(description="Generate an HTML presentation with theming support.")
-    parser.add_argument('--output_dir', type=str, default=None,
-                        help='Path to the output directory. Defaults to a folder named after the presentation title.')
-    parser.add_argument('--images_dir', type=str, default=None,
-                        help='Path to the images directory. If not specified, images are assumed to be in the output directory\'s "images/" folder.')
-    parser.add_argument('--config', type=str, default=None,
-                        help='Path to the presentation configuration file (JSON or YAML).')
-    parser.add_argument('--theme', type=str, default='dark',
-                        choices=['dark', 'blue'],
-                        help='Theme of the presentation. Options: "dark" (default), "blue".')
-    args = parser.parse_args()
 
-    # Load presentation configuration
-    if args.config:
-        config = load_configuration(args.config)
-        title = config.get("title", "Untitled Presentation")
-        author = config.get("author", "Unknown Author")
-        date = config.get("date", "Unknown Date")
-        sections = config.get("sections", [])
-    else:
-        # Default presentation details
-        title = "Example Presentation"
-        author = "Marc Carnovale"
-        date = "November 21, 2024"
-        sections = [
+#######################################################################
+
+sample_title = "Example Presentation"
+sample_author = "Marc Carnovale"
+sample_date = "November 21, 2024"
+sample_sections = [
             {
                 "title": "",  # Title slide
-                "content": [
-                    f"<h1>{title}</h1>",
-                    f"<h3>by {author}</h3>",
-                    f"<p>{date}</p>"
+                "html-content": [
+                    f"<h1>{sample_title}</h1>",
+                    f"<h3>by {sample_author}</h3>",
+                    f"<p>{sample_date}</p>"
                 ],
                 "dark": True
             },
@@ -186,7 +166,7 @@ def main():
                                 "content": [
                                     "<p>Key milestones in the early stages.</p>"
                                 ],
-                                "image": "Placeholder+Image.png"
+                                "image": "PlaceholderImage.png"
                             },
                             {
                                 "title": "Modern Advances",
@@ -195,7 +175,7 @@ def main():
                                 ]
                             }
                         ],
-                        "image": "Placeholder+Image.png"
+                        "image": "PlaceholderImage.png"
                     },
                     {
                         "title": "Objectives",
@@ -204,177 +184,7 @@ def main():
                         ]
                     }
                 ],
-                "image": "Placeholder+Image.png"
-            },
-            {
-                "title": "Philosophy",
-                "content": [
-                    "<h2>Guiding Principles</h2>",
-                    "<p>Ensure training code matches production pipelines, focusing on scalability and operational efficiency.</p>"
-                ]
-            },
-            {
-                "title": "Data Preparation",
-                "content": [
-                    "Steps to clean the data and handle missing values.",
-                    "Techniques used for data preprocessing."
-                ],
-                "folds": [
-                    {
-                        "title": "Handling Missing Values",
-                        "content": [
-                            "Imputation with mean.",
-                            "Dropping incomplete records."
-                        ]
-                    }
-                ],
-                "image": "Placeholder+Image.png"  # Relative to images_source_dir or output/images/
-            },
-            {
-                "title": "Modeling",
-                "content": [
-                    "Overview of the predictive models used.",
-                    "Evaluation metrics and results interpretation."
-                ],
-                "image": "Placeholder+Image.png"  # Relative to images_source_dir or output/images/
-            },
-            {
-                "title": "Conclusion",
-                "content": [
-                    "Summary of key findings.",
-                    "Next steps and future work."
-                ]
-                # No image in this section
-            },
-        {
-            "title": "Thank You",
-            "content": [
-                "<h2>Thank You!</h2>",
-                "<p>Your questions?</p>",
-                "<p>Feel free to reach out for further discussions.</p>"
-            ],
-        }
-        ]
-
-    # Determine output directory
-    if args.output_dir:
-        output_folder = args.output_dir
-    else:
-        sanitized_title = sanitize_title(title)
-        output_folder = os.path.join("output", sanitized_title)
-
-    os.makedirs(output_folder, exist_ok=True)
-
-    # Copy images to output folder
-    destination_images_folder = os.path.join(output_folder, "images")
-    copy_project_images(sections, args.images_dir, destination_images_folder)
-
-    # Copy static files (core.css and script.js)
-    copy_static_files(output_folder)
-
-    # Determine the theme CSS file
-    theme_mapping = {
-        'dark': 'style-dark.css',
-        'blue': 'style-blue.css'
-    }
-
-    selected_theme = args.theme.lower()
-    theme_css = theme_mapping.get(selected_theme)
-
-    if not theme_css:
-        print(f"Theme '{selected_theme}' is not recognized. Falling back to 'dark' theme.")
-        theme_css = 'style-dark.css'
-
-    # Verify that the selected theme CSS file exists
-    theme_source_path = os.path.join("static", "css", "themes", theme_css)
-    if not os.path.isfile(theme_source_path):
-        print(f"Theme CSS file '{theme_css}' not found in 'static/css/themes/' directory.")
-        print("Available themes:", ', '.join(theme_mapping.values()))
-        exit(1)
-
-    # Copy the selected theme CSS to the output directory's 'static/css/themes/' folder
-    destination_themes_folder = os.path.join(output_folder, "static", "css", "themes")
-    os.makedirs(destination_themes_folder, exist_ok=True)
-    shutil.copy(theme_source_path, destination_themes_folder)
-    print(f"Copied theme CSS '{theme_css}' to '{destination_themes_folder}'.")
-
-    # Generate HTML presentation
-    template_path = os.path.join("templates", "core.html")
-    generate_html_presentation(title, sections, template_path, output_folder, theme_css)
-
-def main():
-    # Parse command-line arguments
-    parser = argparse.ArgumentParser(description="Generate an HTML presentation with theming support.")
-    parser.add_argument('--output_dir', type=str, default=None,
-                        help='Path to the output directory. Defaults to a folder named after the presentation title.')
-    parser.add_argument('--images_dir', type=str, default=None,
-                        help='Path to the images directory. If not specified, images are assumed to be in the output directory\'s "images/" folder.')
-    parser.add_argument('--config', type=str, default=None,
-                        help='Path to the presentation configuration file (JSON or YAML).')
-    parser.add_argument('--theme', type=str, default='dark',
-                        choices=['dark', 'blue', 'seafoam'],
-                        help='Theme of the presentation. Options: "dark" (default), "blue", "seafoam".')
-    args = parser.parse_args()
-
-    # Load presentation configuration
-    if args.config:
-        config = load_configuration(args.config)
-        title = config.get("title", "Untitled Presentation")
-        author = config.get("author", "Unknown Author")
-        date = config.get("date", "Unknown Date")
-        sections = config.get("sections", [])
-    else:
-        # Default presentation details
-        title = "Example Presentation"
-        author = "Marc Carnovale"
-        date = "November 21, 2024"
-        sections = [
-            {
-                "title": "",  # Title slide
-                "content": [
-                    f"<h1>{title}</h1>",
-                    f"<h3>by {author}</h3>",
-                    f"<p>{date}</p>"
-                ],
-                "dark": True
-            },
-            {
-                "title": "Introduction",
-                "content": [
-                    "<p>Welcome to the presentation!</p>",
-                    "<p>This section introduces the topic and sets the context.</p>"
-                ],
-                "folds": [
-                    {
-                        "title": "Background",
-                        "content": [
-                            "<p>Historical context and foundational information.</p>"
-                        ],
-                        "folds": [
-                            {
-                                "title": "Early Developments",
-                                "content": [
-                                    "<p>Key milestones in the early stages.</p>"
-                                ],
-                                "image": "Placeholder+Image.png"
-                            },
-                            {
-                                "title": "Modern Advances",
-                                "content": [
-                                    "<p>Recent breakthroughs and current trends.</p>"
-                                ]
-                            }
-                        ],
-                        "image": "Placeholder+Image.png"
-                    },
-                    {
-                        "title": "Objectives",
-                        "content": [
-                            "<p>Primary goals and expected outcomes.</p>"
-                        ]
-                    }
-                ],
-                "image": "Placeholder+Image.png"
+                "image": "PlaceholderImage.png"
             },
             {
                 "title": "Philosophy",
@@ -444,15 +254,87 @@ def main():
                 ]
                 # No image in this section
             },
-        {
-            "title": "Thank You",
-            "content": [
-                "<h2>Thank You!</h2>",
-                "<p>Your questions?</p>",
-                "<p>Feel free to reach out for further discussions.</p>"
-            ],
-        }
+            {
+                "title": "Newsprint Tiling Example",
+                "content": [
+                    {
+                        "rows": {
+                            "number": 2,
+                            "content": [
+                                {
+                                    "columns": {
+                                        "number": 3,
+                                        "size": ["30%", "40%", "30%"],
+                                        "content": [
+                                            {
+                                                "content": "<h3>Headlines</h3><p>Latest news updates.</p>"
+                                            },
+                                            {
+                                                "html-content": "<h3>Top Stories</h3><p>In-depth analysis of current events.</p>"
+                                            },
+                                            {
+                                                "html-content": "<h3>Weather</h3><p>Today's weather forecast.</p>"
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "columns": {
+                                        "number": 2,
+                                        "size": ["50%", "50%"],
+                                        "content": [
+                                            "Advertising Space",
+                                            "Sponsored Content"
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "title": "Additional Content",
+                        "html-content": "<p>Additional content below the tiling layout, such as editor's note or contact information.</p>"
+                    }
+                ],
+                "image": "newsprint_example_image.png"
+            },
+            {
+                "title": "Thank You",
+                "html-content": [
+                    "<h2>Thank You!</h2>",
+                    "<p>Your questions?</p>",
+                    "<p>Feel free to reach out for further discussions.</p>"
+                ],
+            }
         ]
+
+def main():
+    # Parse command-line arguments
+    parser = argparse.ArgumentParser(description="Generate an HTML presentation with theming support.")
+    parser.add_argument('--output_dir', type=str, default=None,
+                        help='Path to the output directory. Defaults to a folder named after the presentation title.')
+    parser.add_argument('--images_dir', type=str, default=None,
+                        help='Path to the images directory. If not specified, images are assumed to be in the output directory\'s "images/" folder.')
+    parser.add_argument('--config', type=str, default=None,
+                        help='Path to the presentation configuration file (JSON or YAML).')
+    parser.add_argument('--theme', type=str, default='dark',
+                        choices=['dark', 'blue', 'forest', 'seafoam'],
+                        help='Theme of the presentation. Options: "dark" (default), "blue", "forest", "seafoam".')
+    args = parser.parse_args()
+
+    # Load presentation configuration
+    if args.config:
+        config = load_configuration(args.config)
+        title = config.get("title", "Untitled Presentation")
+        author = config.get("author", "Unknown Author")
+        date = config.get("date", "Unknown Date")
+        sections = config.get("sections", sample_sections)
+    else:
+        # Default presentation details
+        title = sample_title
+        author = sample_author
+        date = sample_date
+        sections = sample_sections
 
     # Determine output directory
     if args.output_dir:
@@ -475,6 +357,7 @@ def main():
         'dark': 'style-dark.css',
         'blue': 'style-blue.css',
         'seafoam': 'style-seafoam.css',
+        'forest': 'style-forest.css',
     }
 
     selected_theme = args.theme.lower()

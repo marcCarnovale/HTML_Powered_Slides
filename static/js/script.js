@@ -35,17 +35,18 @@ const SectionManager = (() => {
             log(`Invalid section index: ${index}`, "error");
             return;
         }
-
+    
         // Deactivate current section and update TOC
         mainSections[currentIndex]?.classList.remove('active');
         if (currentIndex > 0) {
             tocLinks[currentIndex - 1]?.classList.remove('active');
+            tocLinks[currentIndex - 1]?.blur(); // Ensure focus is cleared
         }
-
+    
         // Update the global index and activate the new section
         currentIndex = index;
         mainSections[currentIndex].classList.add('active');
-
+    
         // Update TOC highlight
         if (currentIndex > 0) {
             updateTOCHighlight();
@@ -53,17 +54,18 @@ const SectionManager = (() => {
             // If navigating to the first slide, ensure no TOC links are active
             tocLinks.forEach(link => link.classList.remove('active'));
         }
-
+    
         // Update body background for the first slide
         if (currentIndex === 0) {
             document.body.classList.add('dark-background');
         } else {
             document.body.classList.remove('dark-background');
         }
-
+    
         log(`Navigated to section index: ${currentIndex}`);
         BreadcrumbManager.updateBreadcrumb();
     }
+    
 
     function nextSection() {
         if (currentIndex < mainSections.length - 1) {
@@ -165,7 +167,8 @@ const CollapsibleManager = (() => {
 
         // Click event handler
         button.addEventListener('click', (event) => {
-            event.stopPropagation(); // Prevent event bubbling to parent elements
+            event.preventDefault();      // Prevent default action
+            event.stopPropagation();     // Stop event from bubbling up
             log(`Collapsible button clicked: ${button.textContent}`);
             const isActive = button.classList.toggle('active');
             const panelId = button.getAttribute('aria-controls');
@@ -209,6 +212,7 @@ const CollapsibleManager = (() => {
 
 
 
+
 // Content Click Handling
 const ContentManager = (() => {
     function setupContentClick() {
@@ -219,6 +223,26 @@ const ContentManager = (() => {
         }
 
         content.addEventListener('click', function (event) {
+            // Ignore clicks that originate from resizers
+            if (event.target.classList.contains('column-resizer')) {
+                log('Click ignored on resizer.');
+                return; // Do not navigate if the click is on a resizer
+            }
+
+            // Ignore the next click if it was triggered by a resize action
+            if (window.ignoreNextClick) {
+                log('Click ignored due to resizing.');
+                window.ignoreNextClick = false; // Reset the flag
+                return;
+            }
+
+            // Ignore if any text is selected
+            const selection = window.getSelection();
+            if (selection && selection.toString().length > 0) {
+                log('Click ignored due to text selection.');
+                return;
+            }
+
             const tagName = event.target.tagName.toLowerCase();
             const collapsible = event.target.closest('.collapsible');
             const panel = event.target.closest('.content-panel');
@@ -236,6 +260,7 @@ const ContentManager = (() => {
 
     return { setupContentClick };
 })();
+
 
 // Sidebar Management
 const SidebarManager = (() => {
@@ -308,6 +333,104 @@ const ContentFirstManager = (() => {
     return { setupContentFirstToggle };
 })();
 
+
+// Global flag to track if an interactive action is in progress
+window.ignoreNextClick = false;
+
+// Global flag to track resizing state
+window.isResizing = false;
+
+const Resizer = (() => {
+    function initializeResizers() {
+        const columns = document.querySelectorAll('.column');
+
+        columns.forEach(column => {
+            const resizer = document.createElement('div');
+            resizer.classList.add('column-resizer'); // Ensure the correct class is added
+            column.appendChild(resizer);
+
+            resizer.addEventListener('mousedown', initResize);
+
+            // Prevent click events on resizer from propagating
+            resizer.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            });
+        });
+
+        function initResize(e) {
+            e.preventDefault(); // Prevent default browser behavior
+            e.stopPropagation(); // Stop event from propagating
+            window.isResizing = true; // Set the resizing flag to true
+            window.ignoreNextClick = true; // Set the global flag to ignore the next click
+            window.addEventListener('mousemove', startResizing);
+            window.addEventListener('mouseup', stopResizing);
+        }
+
+        function startResizing(e) {
+            const resizer = e.target;
+            const column = resizer.parentElement;
+            const prevColumn = column.previousElementSibling;
+            const nextColumn = column.nextElementSibling;
+
+            if (!prevColumn || !nextColumn) return;
+
+            const containerWidth = prevColumn.parentElement.getBoundingClientRect().width;
+
+            const mouseX = e.clientX;
+
+            const newPrevWidth = mouseX - prevColumn.getBoundingClientRect().left;
+            const newNextWidth = containerWidth - newPrevWidth - column.getBoundingClientRect().width - resizer.offsetWidth;
+
+            // Optional: Set minimum widths
+            if (newPrevWidth < 100 || newNextWidth < 100) return;
+
+            // Calculate percentage widths
+            const newPrevWidthPercent = (newPrevWidth / containerWidth) * 100;
+            const newNextWidthPercent = (newNextWidth / containerWidth) * 100;
+
+            prevColumn.style.flex = `0 0 ${newPrevWidthPercent}%`;
+            nextColumn.style.flex = `0 0 ${newNextWidthPercent}%`;
+        }
+
+        function stopResizing(e) {
+            window.removeEventListener('mousemove', startResizing);
+            window.removeEventListener('mouseup', stopResizing);
+            window.isResizing = false; // Unset the resizing flag
+
+            // Reset the global flag after a short delay to allow any synthetic clicks to be ignored
+            setTimeout(() => {
+                window.ignoreNextClick = false;
+            }, 200);
+        }
+
+        function saveColumnWidths() {
+            const columns = document.querySelectorAll('.column');
+            const widths = [];
+            columns.forEach(column => {
+                widths.push(column.style.flexBasis);
+            });
+            localStorage.setItem('columnWidths', JSON.stringify(widths));
+        }
+    }
+
+    function loadColumnWidths() {
+        const widths = JSON.parse(localStorage.getItem('columnWidths'));
+        if (widths) {
+            const columns = document.querySelectorAll('.column');
+            columns.forEach((column, idx) => {
+                if (widths[idx]) {
+                    column.style.flex = `0 0 ${widths[idx]}`;
+                }
+            });
+        }
+    }
+
+    return { initializeResizers, loadColumnWidths };
+})();
+
+
+
 // Initialize Everything
 document.addEventListener('DOMContentLoaded', () => {
     SectionManager.initialize();
@@ -319,4 +442,6 @@ document.addEventListener('DOMContentLoaded', () => {
     ContentManager.setupContentClick();
     SidebarManager.setupSidebarToggle();
     ContentFirstManager.setupContentFirstToggle(); // Initialize Content-First toggle
+    Resizer.initializeResizers();
+    Resizer.loadColumnWidths();
 });
