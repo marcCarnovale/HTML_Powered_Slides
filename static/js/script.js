@@ -29,7 +29,7 @@ const slideManager = (() => {
             }
         });
     }
-    
+
     function goToslide(index) {
         if (index < 0 || index >= mainslides.length) {
             log(`Invalid slide index: ${index}`, "error");
@@ -311,13 +311,21 @@ const BreadcrumbManager = (() => {
         breadcrumbLinks.forEach((link, index) => {
             link.addEventListener('click', (event) => {
                 event.preventDefault();
-                slideManager.goToslide(index); // Navigate to the selected slide
+                navigateTo(index); // Navigate to the selected slide
             });
+        });
+
+        // Enable horizontal scrolling with vertical mousewheel
+        document.querySelector('.breadcrumb').addEventListener('wheel', (event) => {
+            event.preventDefault();
+            const breadcrumb = event.currentTarget;
+            breadcrumb.scrollLeft += event.deltaY;
         });
     }
 
     return { updateBreadcrumb, setupBreadcrumbNavigation };
 })();
+
 
 // Content-First Mode Management
 const ContentFirstManager = (() => {
