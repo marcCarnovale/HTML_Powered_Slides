@@ -4,6 +4,12 @@ A modern, lightweight framework for creating impactful and visually appealing pr
 
 Inspired by Edward Tufte's philosophy on effective information presentation, this framework avoids the pitfalls of rigid, slide-based designs that often obscure meaning or oversimplify complex ideas. Instead, it offers flexibility and a focus on delivering data and narrative in an engaging and accessible format.
 
+
+## Demonstration
+<video controls>
+  <source src="media/showcase.mkv" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
 ---
 
 ## **Features**
