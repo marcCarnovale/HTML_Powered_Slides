@@ -5,15 +5,15 @@ function log(message, type = "log") {
     console[type](message);
 }
 
-const SectionManager = (() => {
-    let currentIndex = 0; // Tracks the currently active section
-    const mainSections = document.querySelectorAll('.section');
+const slideManager = (() => {
+    let currentIndex = 0; // Tracks the currently active slide
+    const mainslides = document.querySelectorAll('.slide');
     const tocLinks = document.querySelectorAll('.sidebar a');
 
     function initialize() {
-        if (mainSections.length > 0) {
-            currentIndex = 0; // Start at the first section
-            mainSections[currentIndex].classList.add('active'); // Mark the first slide as active
+        if (mainslides.length > 0) {
+            currentIndex = 0; // Start at the first slide
+            mainslides[currentIndex].classList.add('active'); // Mark the first slide as active
             document.body.classList.add('dark-background'); // Add dark theme for the first slide
             log('Initialized with the first slide active.');
             BreadcrumbManager.updateBreadcrumb();
@@ -30,21 +30,21 @@ const SectionManager = (() => {
         });
     }
 
-    function goToSection(index) {
-        if (index < 0 || index >= mainSections.length) {
-            log(`Invalid section index: ${index}`, "error");
+    function goToslide(index) {
+        if (index < 0 || index >= mainslides.length) {
+            log(`Invalid slide index: ${index}`, "error");
             return;
         }
 
-        // Deactivate current section and update TOC
-        mainSections[currentIndex]?.classList.remove('active');
+        // Deactivate current slide and update TOC
+        mainslides[currentIndex]?.classList.remove('active');
         if (currentIndex > 0) {
             tocLinks[currentIndex - 1]?.classList.remove('active');
         }
 
-        // Update the global index and activate the new section
+        // Update the global index and activate the new slide
         currentIndex = index;
-        mainSections[currentIndex].classList.add('active');
+        mainslides[currentIndex].classList.add('active');
 
         // Update TOC highlight
         if (currentIndex > 0) {
@@ -61,23 +61,23 @@ const SectionManager = (() => {
             document.body.classList.remove('dark-background');
         }
 
-        log(`Navigated to section index: ${currentIndex}`);
+        log(`Navigated to slide index: ${currentIndex}`);
         BreadcrumbManager.updateBreadcrumb();
     }
 
-    function nextSection() {
-        if (currentIndex < mainSections.length - 1) {
-            goToSection(currentIndex + 1);
+    function nextslide() {
+        if (currentIndex < mainslides.length - 1) {
+            goToslide(currentIndex + 1);
         } else {
-            log('Already on the last section. No further navigation.');
+            log('Already on the last slide. No further navigation.');
         }
     }
 
-    function previousSection() {
+    function previousslide() {
         if (currentIndex > 0) {
-            goToSection(currentIndex - 1);
+            goToslide(currentIndex - 1);
         } else {
-            log('Already on the first section. No further navigation.');
+            log('Already on the first slide. No further navigation.');
         }
     }
 
@@ -85,16 +85,16 @@ const SectionManager = (() => {
         document.addEventListener('keydown', (event) => {
             if (event.key === 'Backspace') {
                 event.preventDefault(); // Prevent default back navigation in the browser
-                previousSection();
+                previousslide();
             } else if (event.key === 'ArrowRight') {
-                nextSection();
+                nextslide();
             } else if (event.key === 'ArrowLeft') {
-                previousSection();
+                previousslide();
             }
         });
     }
 
-    return { initialize, goToSection, nextSection, previousSection, setupKeyboardNavigation };
+    return { initialize, goToslide, nextslide, previousslide, setupKeyboardNavigation };
 })();
 
 
@@ -105,7 +105,7 @@ const TOCManager = (() => {
         tocLinks.forEach((link, index) => {
             link.addEventListener('click', (event) => {
                 event.preventDefault();
-                SectionManager.goToSection(index + 1); // Adjust for TOC starting after title slide
+                slideManager.goToslide(index + 1); // Adjust for TOC starting after title slide
             });
         });
     }
@@ -229,8 +229,8 @@ const ContentManager = (() => {
                 return;
             }
 
-            // Navigate to the next section
-            SectionManager.nextSection();
+            // Navigate to the next slide
+            slideManager.nextslide();
         });
     }
 
@@ -259,11 +259,11 @@ const SidebarManager = (() => {
 const BreadcrumbManager = (() => {
     function updateBreadcrumb() {
         const breadcrumbs = document.querySelector('.breadcrumb ol');
-        const mainSections = document.querySelectorAll('.section');
+        const mainslides = document.querySelectorAll('.slide');
         const breadcrumbLinks = breadcrumbs.querySelectorAll('a');
 
-        mainSections.forEach((section, index) => {
-            if (section.classList.contains('active')) {
+        mainslides.forEach((slide, index) => {
+            if (slide.classList.contains('active')) {
                 breadcrumbLinks.forEach((link, i) => {
                     if (i === index) {
                         link.classList.add('active');
@@ -280,7 +280,7 @@ const BreadcrumbManager = (() => {
         breadcrumbLinks.forEach((link, index) => {
             link.addEventListener('click', (event) => {
                 event.preventDefault();
-                SectionManager.goToSection(index); // Navigate to the selected section
+                slideManager.goToslide(index); // Navigate to the selected slide
             });
         });
     }
@@ -310,8 +310,8 @@ const ContentFirstManager = (() => {
 
 // Initialize Everything
 document.addEventListener('DOMContentLoaded', () => {
-    SectionManager.initialize();
-    SectionManager.setupKeyboardNavigation(); // Enable keyboard navigation
+    slideManager.initialize();
+    slideManager.setupKeyboardNavigation(); // Enable keyboard navigation
     TOCManager.setupTOCNavigation();
     BreadcrumbManager.setupBreadcrumbNavigation(); // Initialize breadcrumb navigation
     BreadcrumbManager.updateBreadcrumb(); // Initialize breadcrumb state

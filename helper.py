@@ -19,27 +19,44 @@ def is_html(content: str) -> bool:
     Returns:
         bool: True if content contains HTML tags, False otherwise.
     """
+    if type(content) is dict :
+        return False
     return bool(re.search(r'<[^>]+>', content))
+
 def generate_rows_html(rows: Dict[str, Any], unique_prefix: str, level: int, indent: str) -> str:
     """
-    Generates HTML for a row structure.
+    Generates HTML for a rows structure, handling nested columns and other content.
     """
     number = rows.get("number", 1)
     row_content = rows.get("content", [])
-    
-    rows_html = f'{indent}<div class="row">\n'
-    
+
+    # Use "rows" class to align with CSS
+    rows_html = f'{indent}<div class="rows">\n'
+
     for idx, row in enumerate(row_content):
-        rows_html += generate_columns_html(row.get("columns", {}), f"{unique_prefix}-row-{idx}", level, indent + "    ")
-    
+        if "columns" in row:
+            # If the row contains columns, generate them
+            rows_html += generate_columns_html(row["columns"], f"{unique_prefix}-row-{idx}", level + 1, indent + "    ")
+        elif "rows" in row:
+            # If the row contains nested rows, recursively generate them
+            rows_html += generate_rows_html(row["rows"], f"{unique_prefix}-row-{idx}", level + 1, indent + "    ")
+        else:
+            # Handle other content types like 'html-content' or 'folds'
+            if "html-content" in row:
+                rows_html += f'{indent}    {row["html-content"]}\n'
+            if "folds" in row:
+                for j, fold in enumerate(row["folds"]):
+                    unique_id = f"fold-{unique_prefix}-row-{idx}-fold-{j}"
+                    rows_html += generate_fold_html(fold, unique_id, level + 1, indent + "    ")
+
     rows_html += f'{indent}</div>\n'
     return rows_html
 
-# helper.py
+
 
 def generate_columns_html(columns: Dict[str, Any], unique_prefix: str, level: int, indent: str) -> str:
     """
-    Generates HTML for a column structure.
+    Generates HTML for a column structure, handling nested rows, columns, and folds.
     """
     number = columns.get("number", 1)
     sizes = columns.get("size", ["100%"] * number)
@@ -59,11 +76,17 @@ def generate_columns_html(columns: Dict[str, Any], unique_prefix: str, level: in
             else:
                 columns_html += f'{indent}        <p>{content}</p>\n'
         elif isinstance(content, dict):
+            # Handle multiple keys within a single content dictionary
             if "html-content" in content:
                 columns_html += f'{indent}        {content["html-content"]}\n'
-            else:
-                # Handle nested structures like rows, columns, folds, etc.
-                columns_html += generate_section_content([content], level + 1)
+            if "folds" in content:
+                for j, fold in enumerate(content["folds"]):
+                    unique_id = f"fold-{unique_prefix}-col-{idx}-fold-{j}"
+                    columns_html += generate_fold_html(fold, unique_id, level + 1, indent + "        ")
+            if "rows" in content:
+                columns_html += generate_rows_html(content["rows"], f"{unique_prefix}-col-{idx}-row", level + 1, indent + "        ")
+            if "columns" in content:
+                columns_html += generate_columns_html(content["columns"], f"{unique_prefix}-col-{idx}-col", level + 1, indent + "        ")
 
         columns_html += f'{indent}    </div>\n'
 
@@ -72,21 +95,22 @@ def generate_columns_html(columns: Dict[str, Any], unique_prefix: str, level: in
 
 
 
-def generate_toc(sections: List[Dict[str, Any]]) -> str:
-    """Generate the Table of Contents (TOC) HTML based on main sections."""
+
+def generate_toc(slides: List[Dict[str, Any]]) -> str:
+    """Generate the Table of Contents (TOC) HTML based on main slides."""
     toc_html = ""
-    for i, section in enumerate(sections):
-        if i == 0 and not section.get("title"):
+    for i, slide in enumerate(slides):
+        if i == 0 and not slide.get("title"):
             continue  # Skip title slide
         toc_index = i - 1  # Adjust index for TOC
-        toc_html += f'<a href="#" onclick="navigateTo({toc_index}); return false;">{section["title"]}</a>\n'
+        toc_html += f'<a href="#" onclick="navigateTo({toc_index}); return false;">{slide["title"]}</a>\n'
     return toc_html
 
-def generate_breadcrumbs(sections: List[Dict[str, Any]]) -> str:
-    """Generate the Breadcrumbs HTML based on main sections."""
+def generate_breadcrumbs(slides: List[Dict[str, Any]]) -> str:
+    """Generate the Breadcrumbs HTML based on main slides."""
     breadcrumbs_html = '<ol>\n'
-    for i, section in enumerate(sections):
-        breadcrumbs_html += f'    <li><a href="#" onclick="navigateTo({i}); return false;">{section["title"]}</a></li>\n'
+    for i, slide in enumerate(slides):
+        breadcrumbs_html += f'    <li><a href="#" onclick="navigateTo({i}); return false;">{slide["title"]}</a></li>\n'
     breadcrumbs_html += '</ol>'
     return breadcrumbs_html
 
@@ -100,111 +124,142 @@ def generate_chart_html(chart_data: Dict[str, Any], indent: str) -> str:
     )
 
 # Helper function to generate fold HTML
-# helper.py
-
 def generate_fold_html(fold: Dict[str, Any], unique_id: str, level: int, indent: str) -> str:
-    try:
-        fold_html = f'{indent}<button class="collapsible" aria-expanded="false" aria-controls="{unique_id}">{fold["title"]}</button>\n'
-    except KeyError:
-        fold_html = f'{indent}<button class="collapsible" aria-expanded="false" aria-controls="{unique_id}">Click to Expand</button>\n'
-    
+    """
+    Generates HTML for a collapsible fold with varying background darkness based on depth.
+
+    Args:
+        fold (Dict[str, Any]): The fold data containing title, content, and possibly nested folds.
+        unique_id (str): A unique identifier for the content panel associated with the collapsible.
+        level (int): The current nesting depth level (1-based).
+        indent (str): The indentation string for formatting.
+
+    Returns:
+        str: The generated HTML string for the fold.
+    """
+    # Define the maximum depth level supported
+    MAX_LEVEL = 5
+
+    # Ensure the current level does not exceed MAX_LEVEL
+    current_level = min(level, MAX_LEVEL)
+
+    # Attempt to retrieve the fold title; default if not present
+    fold_title = fold.get("title", "Click to Expand")
+
+    # Assign the appropriate 'level-x' class based on current_level
+    fold_html = f'{indent}<button class="collapsible level-{current_level}" aria-expanded="false" aria-controls="{unique_id}">{fold_title}</button>\n'
+
+    # Start the content panel with the unique ID
     fold_html += f'{indent}<div id="{unique_id}" class="content-panel">\n'
-    
-    # If the fold contains a chart
+
+    # If the fold contains a chart, generate its HTML
     if "chart" in fold:
         fold_html += generate_chart_html(fold["chart"], indent + "    ")
-    
-    # If the fold contains "html-content"
+
+    # If the fold contains "html-content", insert it directly
     if "html-content" in fold:
         fold_html += f'{indent}    {fold["html-content"]}\n'
-    
-    # If the fold contains "content"
+
+    # If the fold contains "content", process each content item
     if "content" in fold:
         for content in fold["content"]:
             if is_html(content):
                 fold_html += f'{indent}    {content}\n'
             else:
                 fold_html += f'{indent}    <p>{content}</p>\n'
-    
-    # If the fold contains nested folds, recurse
+
+    # If the fold contains nested folds, recurse and increment the level
     if "folds" in fold:
-        fold_html += generate_section_content([fold], level + 1)
-    
+        # Ensure 'folds' is a list
+        nested_folds = fold["folds"]
+        if isinstance(nested_folds, dict):
+            # If 'folds' is a single dict, wrap it in a list
+            nested_folds = [nested_folds]
+        elif not isinstance(nested_folds, list):
+            # If 'folds' is neither a dict nor a list, skip processing
+            nested_folds = []
+
+        for sub_fold in nested_folds:
+            # Generate a unique ID for the nested fold
+            sub_unique_id = f"{unique_id}-sub-{nested_folds.index(sub_fold)+1}"
+            # Recursively generate HTML for the nested fold, incrementing the level
+            fold_html += generate_fold_html(sub_fold, sub_unique_id, level + 1, indent + "    ")
+
+    # Close the content panel div
     fold_html += f'{indent}</div>\n'
     return fold_html
 
 
-# Main function to generate section content
-# helper.py
 
-def generate_section_content(sections: List[Dict[str, Any]], level: int = 0) -> str:
-    sections_html = ""
+# Main function to generate slide content
+def generate_slide_content(slides: List[Dict[str, Any]], level: int = 0) -> str:
+    slides_html = ""
     indent = "    " * level  # Indentation for readability
 
-    for i, section in enumerate(sections):
+    for i, slide in enumerate(slides):
         # Determine CSS classes
-        classes = "section" if level == 0 else "nested-section"
-        if section.get("dark"):
+        classes = "slide" if level == 0 else "nested-slide"
+        if slide.get("dark"):
             classes += " dark"
 
-        sections_html += f'{indent}<div class="{classes}">\n'
-        sections_html += f'{indent}    <div class="content-wrapper">\n'
-        sections_html += f'{indent}        <div class="text-content">\n'
+        slides_html += f'{indent}<div class="{classes}">\n'
+        slides_html += f'{indent}    <div class="content-wrapper">\n'
+        slides_html += f'{indent}        <div class="text-content">\n'
 
         # Handle "html-content" separately
-        for content in section.get("html-content", []):
-            sections_html += f'{indent}            {content}\n'
+        for content in slide.get("html-content", []):
+            slides_html += f'{indent}            {content}\n'
 
         # Handle "content" which can include rows, columns, plain text, or nested structures
-        for content in section.get("content", []):
+        for content in slide.get("content", []):
             if isinstance(content, str):
                 if is_html(content):
-                    sections_html += f'{indent}            {content}\n'
+                    slides_html += f'{indent}            {content}\n'
                 else:
-                    sections_html += f'{indent}            <p>{content}</p>\n'
+                    slides_html += f'{indent}            <p>{content}</p>\n'
             elif isinstance(content, dict):
                 if "rows" in content:
-                    sections_html += generate_rows_html(content["rows"], f"section-{level}-{i}", level, indent + "            ")
+                    slides_html += generate_rows_html(content["rows"], f"slide-{level}-{i}", level, indent + "            ")
                 elif "columns" in content:
-                    sections_html += generate_columns_html(content["columns"], f"section-{level}-{i}", level, indent + "            ")
+                    slides_html += generate_columns_html(content["columns"], f"slide-{level}-{i}", level, indent + "            ")
                 else:
                     # Handle other structured content like folds
-                    sections_html += generate_fold_html(content, f"fold-{level}-{i}", level, indent + "            ")
+                    slides_html += generate_fold_html(content, f"fold-{level}-{i}", level, indent + "            ")
 
-        # Handle collapsible sections (folds)
-        for j, fold in enumerate(section.get("folds", [])):
+        # Handle collapsible slides (folds)
+        for j, fold in enumerate(slide.get("folds", [])):
             unique_id = f"collapsible-{level}-{i}-{j}"  # Unique ID for each fold
-            sections_html += generate_fold_html(fold, unique_id, level, indent + "        ")
+            slides_html += generate_fold_html(fold, unique_id, level, indent + "        ")
 
-        sections_html += f'{indent}        </div>\n'
+        slides_html += f'{indent}        </div>\n'
 
         # Handle images
-        image_url = section.get("image", "static/images/placeholder.png")
+        image_url = slide.get("image", "static/images/placeholder.png")
         if image_url:
             image_filename = os.path.basename(image_url)
-            sections_html += f'{indent}        <div class="image-content">\n'
-            sections_html += f'{indent}            <img src="images/{image_filename}" alt="{section.get("title", "Image")} Image">\n'
-            sections_html += f'{indent}        </div>\n'
+            slides_html += f'{indent}        <div class="image-content">\n'
+            slides_html += f'{indent}            <img src="images/{image_filename}" alt="{slide.get("title", "Image")} Image">\n'
+            slides_html += f'{indent}        </div>\n'
 
-        sections_html += f'{indent}    </div>\n'
-        sections_html += f'{indent}</div>\n\n'
+        slides_html += f'{indent}    </div>\n'
+        slides_html += f'{indent}</div>\n\n'
 
-    return sections_html
+    return slides_html
 
 
 
 def copy_images(
-    sections: List[Dict[str, Any]],
+    slides: List[Dict[str, Any]],
     images_source_dir: Optional[str],
     destination_images_folder: str,
     placeholder_image: str = os.path.join(os.getcwd(), "static/images/placeholder.png")
 ) -> None:
     """
     Recursively copies images from the source directory to the destination images folder.
-    Updates the 'image' field in the section dictionary to use the placeholder image if needed.
+    Updates the 'image' field in the slide dictionary to use the placeholder image if needed.
 
     Args:
-        sections (List[Dict[str, Any]]): List of section dictionaries.
+        slides (List[Dict[str, Any]]): List of slide dictionaries.
         images_source_dir (Optional[str]): Path to the source images directory.
         destination_images_folder (str): Path to the destination images folder.
         placeholder_image (str): Path to the placeholder image.
@@ -220,8 +275,8 @@ def copy_images(
         print(f"Placeholder image '{placeholder_image}' does not exist. Skipping.")
         placeholder_image = None
 
-    for section in sections:
-        image_path = section.get("image")
+    for slide in slides:
+        image_path = slide.get("image")
         if image_path:
             src_image = os.path.join(images_source_dir, image_path) if images_source_dir else None
             dest_image = os.path.join(destination_images_folder, os.path.basename(image_path))
@@ -235,7 +290,7 @@ def copy_images(
                     dest_placeholder = os.path.join(destination_images_folder, os.path.basename(placeholder_image))
                     if not os.path.isfile(dest_placeholder):
                         shutil.copy(placeholder_image, dest_placeholder)
-                    section["image"] = os.path.basename(placeholder_image)  # Update image to placeholder
+                    slide["image"] = os.path.basename(placeholder_image)  # Update image to placeholder
                     print(f"Copied placeholder image to '{dest_placeholder}'")
         else:
             # No image specified, use the placeholder
@@ -244,17 +299,17 @@ def copy_images(
                 dest_placeholder = os.path.join(destination_images_folder, os.path.basename(placeholder_image))
                 if not os.path.isfile(dest_placeholder):
                     shutil.copy(placeholder_image, dest_placeholder)
-                section["image"] = os.path.basename(placeholder_image)  # Update image to placeholder
+                slide["image"] = os.path.basename(placeholder_image)  # Update image to placeholder
                 print(f"Copied placeholder image to '{dest_placeholder}'")
 
         # Recursively handle nested folds
-        for fold in section.get("folds", []):
+        for fold in slide.get("folds", []):
             copy_images([fold], images_source_dir, destination_images_folder, placeholder_image)
 
 
 
 def copy_project_images(
-    sections: List[Dict[str, Any]],
+    slides: List[Dict[str, Any]],
     images_source_dir: Optional[str],
     destination_images_folder: str
 ) -> None:
@@ -262,7 +317,7 @@ def copy_project_images(
     Prepares the destination images folder and copies images.
     
     Args:
-        sections (List[Dict[str, Any]]): List of section dictionaries.
+        slides (List[Dict[str, Any]]): List of slide dictionaries.
         images_source_dir (Optional[str]): Path to the source images directory.
         destination_images_folder (str): Path to the destination images folder.
     
@@ -270,5 +325,5 @@ def copy_project_images(
         None
     """
     os.makedirs(destination_images_folder, exist_ok=True)
-    copy_images(sections, images_source_dir, destination_images_folder)
+    copy_images(slides, images_source_dir, destination_images_folder)
 

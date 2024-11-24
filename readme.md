@@ -8,7 +8,7 @@ Inspired by Edward Tufte's philosophy on effective information presentation, thi
 
 ## **Features**
 - **Dynamic Theming:** Create and switch between custom styles effortlessly to match your branding or presentation context.
-- **Nested Folds:** Present detailed content progressively, with collapsible sections that encourage exploration without overwhelming the audience.
+- **Nested Folds:** Present detailed content progressively, with collapsible slides that encourage exploration without overwhelming the audience.
 - **Responsive Design:** Ensures your presentation looks great on any screen size.
 - **Programmatic Slide Creation:** Simplifies generating presentations programmatically or manually.
 - **Seamless Navigation:** Integrated Table of Contents (TOC) and intuitive click-to-advance features.
@@ -43,7 +43,7 @@ python main.py --output_dir ./my_presentation_project --theme style-blue.css
 ### **Customizing Slides**
 Slides are defined programmatically in main.py. Use the following example format:
 
-sections = [ { "title": "Introduction", "content": ["<p>Welcome to the presentation!</p>"], "folds": [ { "title": "Details", "content": ["<p>Here is more detailed information.</p>"] } ], "image": "introduction_image.png", }, ]
+slides = [ { "title": "Introduction", "content": ["<p>Welcome to the presentation!</p>"], "folds": [ { "title": "Details", "content": ["<p>Here is more detailed information.</p>"] } ], "image": "introduction_image.png", }, ]
 
 
 ### **Running the Presentation**

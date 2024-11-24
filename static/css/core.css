@@ -1,3 +1,5 @@
+/* static/css/core.css */
+
 /* General styles */
 body, html {
     margin: 0;
@@ -131,31 +133,47 @@ body.content-first .header {
 
 .breadcrumb {
     margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    padding: 5px 10px;
+    background: var(--breadcrumb-bg, #f1f1f1);
+    border-radius: 5px;
+    font-size: 14px;
 }
 
 .breadcrumb ol {
     list-style: none;
     padding: 0;
+    margin: 0;
     display: flex;
-    gap: 5px;
+    gap: 10px;
+    align-items: center;
 }
 
 .breadcrumb li::after {
     content: '>';
     margin-left: 5px;
+    color: var(--breadcrumb-divider-color, #aaa);
 }
 
 .breadcrumb li:last-child::after {
-    content: '';
+    content: ''; /* Remove the divider for the last breadcrumb */
 }
 
 .breadcrumb a {
     text-decoration: none;
-    color: var(--breadcrumb-color, #555);
-    font-size: 14px;
+    color: var(--breadcrumb-link-color, #007bff);
+    transition: color 0.3s ease;
 }
 
 .breadcrumb a:hover {
+    text-decoration: underline;
+    color: var(--breadcrumb-link-hover-color, #0056b3);
+}
+
+.breadcrumb a.active {
+    font-weight: bold;
+    color: var(--breadcrumb-active-color, #333);
     text-decoration: underline;
 }
 
@@ -166,18 +184,18 @@ body.content-first .header {
 }
 
 .content img {
-    padding:2%;
+    padding: 2%;
 }
 
-/* Section styles */
-.section, .nested-section {
+/* slide styles */
+.slide, .nested-slide {
     display: none;
     width: 100%;
     overflow: hidden;
     position: relative;
 }
 
-.section.active, .nested-section.active {
+.slide.active, .nested-slide.active {
     display: block;
 }
 
@@ -218,11 +236,11 @@ body.content-first .header {
 }
 
 .collapsible.level-2 {
-    background-color: var(--collapsible-bg-level-2, #d1e8e2);
+    background-color: var(--collapsible-bg-level-2, #d1d1d1);
 }
 
 .collapsible.level-3 {
-    background-color: var(--collapsible-bg-level-3, #b3cde0);
+    background-color: var(--collapsible-bg-level-3, #c1c1c1);
 }
 
 .collapsible.active {
@@ -244,8 +262,8 @@ body.content-first .header {
     padding: 10px; /* Add padding in expanded state */
 }
 
-/* Ensure nested sections are visible when their parent content-panel is active */
-.content-panel.active .nested-section {
+/* Ensure nested slides are visible when their parent content-panel is active */
+.content-panel.active .nested-slide {
     display: block;
 }
 
@@ -339,95 +357,18 @@ h1, h2, h3 {
     .chart-container {
         height: 300px;
     }
-}
 
-/* Chart styles */
-.chart-container {
-    position: relative;
-    width: 100%;
-    height: 400px; /* Adjust as needed */
-    margin-top: 20px;
-}
-
-.chart-container canvas {
-    width: 100% !important;
-    height: 100% !important;
-}
-
-.breadcrumb {
-    margin-top: 10px;
-    display: flex;
-    justify-content: center;
-    padding: 5px 10px;
-    background: var(--breadcrumb-bg, #f1f1f1);
-    border-radius: 5px;
-    font-size: 14px;
-}
-
-.breadcrumb ol {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    gap: 10px;
-    align-items: center;
-}
-
-.breadcrumb li::after {
-    content: '>';
-    margin-left: 5px;
-    color: var(--breadcrumb-divider-color, #aaa);
-}
-
-.breadcrumb li:last-child::after {
-    content: ''; /* Remove the divider for the last breadcrumb */
-}
-
-.breadcrumb a {
-    text-decoration: none;
-    color: var(--breadcrumb-link-color, #007bff);
-    transition: color 0.3s ease;
-}
-
-.breadcrumb a:hover {
-    text-decoration: underline;
-    color: var(--breadcrumb-link-hover-color, #0056b3);
-}
-
-.breadcrumb a.active {
-    font-weight: bold;
-    color: var(--breadcrumb-active-color, #333);
-    text-decoration: underline;
-}
-
-
-.sidebar.minimized ~ .header {
-    left: 40px; /* Matches the width of the minimized sidebar */
-    width: calc(100% - 40px); /* Adjust header width to fill remaining space */
-}
-
-.row {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    margin-bottom: 20px;
-}
-
-.columns {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-}
-
-.column {
-    padding: 10px;
-    box-sizing: border-box;
-}
-
-/* Responsive columns */
-@media (max-width: 800px) {
-    .row, .columns {
+    .content-wrapper {
         flex-direction: column;
+    }
+
+    .sidebar.minimized {
+        width: 60px;
+    }
+
+    .toggle-tab {
+        width: 25px;
+        height: 35px;
     }
 }
 
@@ -436,6 +377,24 @@ h1, h2, h3 {
     resize: horizontal;
     overflow: auto;
     min-width: 100px;
+}
+
+/* Column Resizer Styling */
+.column-resizer {
+    width: 5px;
+    background-color: #ddd;
+    cursor: ew-resize;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 100;
+    border-left: 1px solid #ccc;
+    transition: background-color 0.3s ease;
+}
+
+.column-resizer:hover {
+    background-color: #bbb;
 }
 
 /* Additional styles for better visuals */
@@ -447,34 +406,154 @@ h1, h2, h3 {
     background-color: #f1f1f1;
     border: 1px solid #ccc;
     border-radius: 5px;
+    padding: 10px;
+    box-sizing: border-box;
+    position: relative; /* For resizer positioning */
 }
 
-/* Optional: Style for dynamic resizing indicators */
-.column-resizer {
-    width: 5px;
-    cursor: ew-resize;
-    background-color: #ddd;
+/* Sidebar Toggle Tab */
+.toggle-tab {
+    background: none; /* Transparent */
+    border: none; /* No border */
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* Ensure the main container doesn't overlap with sidebar */
+.container {
+    overflow: hidden;
+}
+
+/* Image Container with Caption Overlay */
+.image-container {
     position: relative;
-    top: 0;
-    right: 0;
-    bottom: 0;
+    display: inline-block;
 }
 
-.text-content {
-    display: block;
+.image-container img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
 }
 
-
-.column-resizer {
-    width: 5px;
-    background-color: #ddd;
-    cursor: ew-resize;
+.image-caption {
     position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 100;
+    bottom: 8px;
+    left: 16px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 3px;
+    font-size: 14px;
 }
+
+/* News Ticker Styling */
+.news-ticker {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    box-sizing: border-box;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    padding: 10px 0;
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.news-ticker p {
+    display: inline-block;
+    padding-left: 100%;
+    animation: ticker 20s linear infinite;
+}
+
+@keyframes ticker {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+/* Sidebar Panel Styling */
+.sidebar-panel {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    box-sizing: border-box;
+    height: 100%;
+    overflow: auto;
+}
+
+
+/* Flex Container for Columns and Rows */
+.columns, .rows {
+    display: flex;
+    gap: 10px;
+}
+
+.rows {
+    flex-direction: column;
+}
+
+.columns {
+    flex-direction: row;
+}
+
+.column, .row {
+    flex: 1;
+}
+
+
+/* Flex Container for Columns and Rows */
+.columns, .rows {
+    display: flex;
+    gap: 10px;
+}
+
+.rows {
+    flex-direction: column;
+}
+
+.columns {
+    flex-direction: row;
+}
+
+.column, .row {
+    flex: 1;
+}
+
+
+
+/* Sidebar Panel Styling */
+.sidebar-panel {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    box-sizing: border-box;
+    height: 100%;
+    overflow: auto;
+}
+
+/* Remove or Customize Focus Outlines for Sidebar Links */
+.sidebar a:focus {
+    /* Option 1: Remove focus outline */
+    outline: none;
+
+    /* Option 2: Customize focus outline */
+    /* Uncomment the lines below to apply a custom focus style */
+    /*
+    outline: 2px solid transparent;
+    box-shadow: 0 0 0 2px #ff9800; /* Custom orange focus ring */
+    */
+}
+
+
 
 .sidebar a:focus,
 .toggle-tab:focus,
@@ -486,7 +565,7 @@ h1, h2, h3 {
 
 /* Focus style for sidebar TOC navigation buttons */
 .sidebar a:focus {
-    outline: 2px solid var(--focus-outline, #1a201e6b); /* Custom theme color for TOC links */
+    outline: 2px solid var(--focus-outline, #48524f49); /* Custom theme color for TOC links */
     outline-offset: 2px; /* Offset for clarity */
 }
 
@@ -497,3 +576,91 @@ h1, h2, h3 {
     border: none; /* Seafoam border */
 }
 
+
+/* Default styling for content panels */
+.content-panel {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+    padding: 0;
+    background-color: var(--content-panel-bg); /* Default light grey */
+    border-radius: 5px;
+    color: #000; /* Black text for readability */
+}
+
+/* Level-specific background colors for content panels */
+.content-panel.level-1 {
+    background-color: var(--content-panel-bg-level-1, #e8e8e8); /* Slightly darker grey for level-1 */
+}
+
+.content-panel.level-2 {
+    background-color: var(--content-panel-bg-level-2, #c8c8c8); /* Darker grey for level-2 */
+}
+
+.content-panel.level-3 {
+    background-color: var(--content-panel-bg-level-3, #a8a8a8); /* Even darker grey for level-3 */
+}
+
+.content-panel.level-4 {
+    background-color: var(--content-panel-bg-level-4, #888888); /* Darker grey for level-4 */
+}
+
+.content-panel.level-5 {
+    background-color: var(--content-panel-bg-level-5, #666666); /* Darkest grey for level-5 */
+}
+
+/* Active state for expanded content panels */
+.content-panel.active {
+    max-height: 1000px; /* Arbitrarily large value for expansion */
+    padding: 10px;
+}
+
+/* Fold Background Colors Based on Depth */
+:root {
+    --fold-bg-level-1: #f9f9f9; /* Lightest */
+    --fold-bg-level-2: #e6e6e6;
+    --fold-bg-level-3: #cccccc;
+    --fold-bg-level-4: #b3b3b3;
+    --fold-bg-level-5: #999999; /* Darkest */
+}
+
+/* Base styles for content panels */
+.content-panel {
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    /* Default background if depth exceeds defined levels */
+    background-color: var(--fold-bg-level-1);
+}
+
+/* Background for Level 1 Folds */
+.collapsible.level-1 + .content-panel {
+    background-color: var(--fold-bg-level-1);
+}
+
+/* Background for Level 2 Folds */
+.collapsible.level-2 + .content-panel {
+    background-color: var(--fold-bg-level-2);
+}
+
+/* Background for Level 3 Folds */
+.collapsible.level-3 + .content-panel {
+    background-color: var(--fold-bg-level-3);
+}
+
+/* Background for Level 4 Folds */
+.collapsible.level-4 + .content-panel {
+    background-color: var(--fold-bg-level-4);
+}
+
+/* Background for Level 5 Folds */
+.collapsible.level-5 + .content-panel {
+    background-color: var(--fold-bg-level-5);
+}
+
+
+
+/* Apply custom focus styles only when focus is visible (e.g., keyboard navigation) */
+.sidebar a:focus-visible {
+    outline: 2px solid #ff9800; /* Custom focus ring */
+    border-radius: 3px; /* Optional: match your design */
+}
