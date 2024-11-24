@@ -649,6 +649,13 @@ def main():
     shutil.copy(theme_source_path, destination_themes_folder)
     print(f"Copied theme CSS '{theme_css}' to '{destination_themes_folder}'.")
 
+    # Copy alt themes
+    for theme in ["style-dark.css", "style-blue.css", "style-seafoam.css"]:
+        if theme not in os.listdir(destination_images_folder) :
+            theme_source_path = os.path.join("static", "css", "themes", theme)
+            shutil.copy(theme_source_path, destination_themes_folder)
+            print(f"Copied theme CSS '{theme}' to '{destination_themes_folder}'.")
+
     # Generate HTML presentation
     template_path = os.path.join("templates", "core.html")
     generate_html_presentation(title, slides, template_path, output_folder, theme_css)

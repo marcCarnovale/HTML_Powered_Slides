@@ -25,7 +25,7 @@ Themes allow you to customize the visual appearance of your presentation by usin
 1. **Modify the HTML**:
    - In your `core.html` file, locate the following line:
      ```html
-     <link id="theme-link" rel="stylesheet" href="static/css/themes/{{theme_css}}">
+     <link id="theme-stylesheet" rel="stylesheet" href="static/css/themes/{{theme_css}}">
      ```
    - Set the `theme_css` variable to the desired theme file, e.g., `"style-dark.css"` or `"style-blue.css"`.
    
@@ -84,6 +84,6 @@ For advanced usage, you can enable runtime theme switching:
 Include the following JavaScript snippet in your script.js file:
 
 document.getElementById('theme-selector').addEventListener('change', function(event) {
-    const themeLink = document.getElementById('theme-link');
+    const themeLink = document.getElementById('theme-stylesheet');
     themeLink.href = `static/css/themes/${event.target.value}`;
 });
