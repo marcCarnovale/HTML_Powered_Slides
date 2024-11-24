@@ -1,0 +1,492 @@
+<!-- templates/core.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Presentation System Overview</title>
+    <!-- Link to Core CSS -->
+    <link rel="stylesheet" href="static/css/core.css">
+    <!-- Link to Theme CSS -->
+    <link id="theme-link" rel="stylesheet" href="static/css/themes/style-dark.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <button class="toggle-content-first" id="toggle-content-first">Hide Sidebar</button>
+    <div class="sidebar" id="sidebar">
+        <h3>Table of Contents</h3>
+        <button class="toggle-tab" onclick="toggleSidebar()">&#10095;</button>
+        <a href="#" onclick="navigateTo(0); return false;">Introduction</a>
+<a href="#" onclick="navigateTo(1); return false;">Features</a>
+<a href="#" onclick="navigateTo(2); return false;">Flexibility of HTML</a>
+<a href="#" onclick="navigateTo(3); return false;">Information Density</a>
+<a href="#" onclick="navigateTo(4); return false;">Current Features</a>
+<a href="#" onclick="navigateTo(5); return false;">Future Features</a>
+<a href="#" onclick="navigateTo(6); return false;">Building Slides with LLMs</a>
+<a href="#" onclick="navigateTo(7); return false;">How It Works</a>
+<a href="#" onclick="navigateTo(8); return false;">Use Cases</a>
+<a href="#" onclick="navigateTo(9); return false;">Technical Overview</a>
+<a href="#" onclick="navigateTo(10); return false;">Extensibility</a>
+<a href="#" onclick="navigateTo(11); return false;">Accessibility</a>
+<a href="#" onclick="navigateTo(12); return false;">Multimedia Support</a>
+<a href="#" onclick="navigateTo(13); return false;">Performance Metrics</a>
+<a href="#" onclick="navigateTo(14); return false;">Conclusion</a>
+<a href="#" onclick="navigateTo(15); return false;">Thank You</a>
+
+    </div>
+    <div class="container">
+        <div class="header">
+            <h1>Presentation System Overview</h1>
+        <!-- Breadcrumbs -->
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+                <ol>
+    <li><a href="#" onclick="navigateTo(0); return false;"></a></li>
+    <li><a href="#" onclick="navigateTo(1); return false;">Introduction</a></li>
+    <li><a href="#" onclick="navigateTo(2); return false;">Features</a></li>
+    <li><a href="#" onclick="navigateTo(3); return false;">Flexibility of HTML</a></li>
+    <li><a href="#" onclick="navigateTo(4); return false;">Information Density</a></li>
+    <li><a href="#" onclick="navigateTo(5); return false;">Current Features</a></li>
+    <li><a href="#" onclick="navigateTo(6); return false;">Future Features</a></li>
+    <li><a href="#" onclick="navigateTo(7); return false;">Building Slides with LLMs</a></li>
+    <li><a href="#" onclick="navigateTo(8); return false;">How It Works</a></li>
+    <li><a href="#" onclick="navigateTo(9); return false;">Use Cases</a></li>
+    <li><a href="#" onclick="navigateTo(10); return false;">Technical Overview</a></li>
+    <li><a href="#" onclick="navigateTo(11); return false;">Extensibility</a></li>
+    <li><a href="#" onclick="navigateTo(12); return false;">Accessibility</a></li>
+    <li><a href="#" onclick="navigateTo(13); return false;">Multimedia Support</a></li>
+    <li><a href="#" onclick="navigateTo(14); return false;">Performance Metrics</a></li>
+    <li><a href="#" onclick="navigateTo(15); return false;">Conclusion</a></li>
+    <li><a href="#" onclick="navigateTo(16); return false;">Thank You</a></li>
+</ol>
+            </nav>
+        </div>
+        <div class="content" id="content">
+            <div class="slide dark">
+    <div class="content-wrapper">
+        <div class="text-content">
+            <h1>Presentation System Overview</h1>
+            <h3>by Marc Carnovale</h3>
+            <p>November 21, 2024</p>
+        </div>
+        <div class="image-content">
+            <img src="images/placeholder.png" alt=" Image">
+        </div>
+    </div>
+</div>
+
+<div class="slide">
+    <div class="content-wrapper">
+        <div class="text-content">
+            <p>Welcome to our advanced Presentation System.</p>
+            <p>Designed for maximum flexibility and efficiency, leveraging the power of HTML and modern web technologies.</p>
+        <button class="collapsible level-0" aria-expanded="false" aria-controls="collapsible-0-1-0">Core Principles</button>
+        <div id="collapsible-0-1-0" class="content-panel">
+            <p>Emphasis on information density and clarity.</p>
+            <p>Minimalist design inspired by Tufte's philosophy.</p>
+            <button class="collapsible level-1" aria-expanded="false" aria-controls="collapsible-0-1-0-sub-1">Information Density</button>
+            <div id="collapsible-0-1-0-sub-1" class="content-panel">
+                <p>Maximizing data presentation without clutter.</p>
+            </div>
+            <button class="collapsible level-1" aria-expanded="false" aria-controls="collapsible-0-1-0-sub-2">Clarity</button>
+            <div id="collapsible-0-1-0-sub-2" class="content-panel">
+                <p>Ensuring information is easily understandable.</p>
+            </div>
+        </div>
+        <button class="collapsible level-0" aria-expanded="false" aria-controls="collapsible-0-1-1">System Highlights</button>
+        <div id="collapsible-0-1-1" class="content-panel">
+            <p>Robust HTML-based architecture.</p>
+            <p>Seamless integration with LLMs for dynamic slide creation.</p>
+        </div>
+        </div>
+        <div class="image-content">
+            <img src="images/placeholder.png" alt="Introduction Image">
+        </div>
+    </div>
+</div>
+
+<div class="slide">
+    <div class="content-wrapper">
+        <div class="text-content">
+            <h2>Key Features</h2>
+            <ul>
+            <li>Dynamic Resizing and Reflow</li>
+            <li>Nested Folds for Hierarchical Information</li>
+            <li>Flexible Column and Row Layouts</li>
+            <li>Rich Multimedia Support</li>
+            <li>Interactive Elements and Charts</li>
+            <li>Accessibility Compliance</li>
+            </ul>
+        <button class="collapsible level-0" aria-expanded="false" aria-controls="collapsible-0-2-0">Dynamic Resizing</button>
+        <div id="collapsible-0-2-0" class="content-panel">
+            <p>Elegant resizing and reflow capabilities ensure content adapts to various screen sizes.</p>
+        </div>
+        <button class="collapsible level-0" aria-expanded="false" aria-controls="collapsible-0-2-1">Nested Folds</button>
+        <div id="collapsible-0-2-1" class="content-panel">
+            <p>Organize information hierarchically with collapsible sections.</p>
+        </div>
+        </div>
+        <div class="image-content">
+            <img src="images/placeholder.png" alt="Features Image">
+        </div>
+    </div>
+</div>
+
+<div class="slide">
+    <div class="content-wrapper">
+        <div class="text-content">
+            <h2>Leveraging HTML's Flexibility</h2>
+            <p>Our system harnesses the mature and versatile nature of HTML to provide a robust framework for presentations.</p>
+            <p>Benefits include:</p>
+            <ul>
+            <li>Wide compatibility across devices and browsers.</li>
+            <li>Extensive multimedia integration.</li>
+            <li>Ease of customization and styling.</li>
+            </ul>
+        <button class="collapsible level-0" aria-expanded="false" aria-controls="collapsible-0-3-0">Responsive Design</button>
+        <div id="collapsible-0-3-0" class="content-panel">
+            <p>Slides automatically adjust layout for optimal viewing on any device.</p>
+        </div>
+        <button class="collapsible level-0" aria-expanded="false" aria-controls="collapsible-0-3-1">Multimedia Support</button>
+        <div id="collapsible-0-3-1" class="content-panel">
+            <p>Embed videos, images, charts, and interactive content seamlessly.</p>
+        </div>
+        </div>
+        <div class="image-content">
+            <img src="images/placeholder.png" alt="Flexibility of HTML Image">
+        </div>
+    </div>
+</div>
+
+<div class="slide">
+    <div class="content-wrapper">
+        <div class="text-content">
+            <h2>Maximizing Information Density</h2>
+            <p>Inspired by Tufte, our system prioritizes the presentation of rich information without unnecessary distractions.</p>
+            <p>Strategies include:</p>
+            <ul>
+            <li>Minimalist design with ample white space.</li>
+            <li>Clear hierarchies through typography and layout.</li>
+            <li>Focus on data-driven content.</li>
+            </ul>
+        <button class="collapsible level-0" aria-expanded="false" aria-controls="collapsible-0-4-0">Minimalist Design</button>
+        <div id="collapsible-0-4-0" class="content-panel">
+            <p>Clean layouts that emphasize content over decoration.</p>
+        </div>
+        <button class="collapsible level-0" aria-expanded="false" aria-controls="collapsible-0-4-1">Clear Hierarchies</button>
+        <div id="collapsible-0-4-1" class="content-panel">
+            <p>Use of headings, bullet points, and indentation to organize information.</p>
+        </div>
+        </div>
+        <div class="image-content">
+            <img src="images/placeholder.png" alt="Information Density Image">
+        </div>
+    </div>
+</div>
+
+<div class="slide">
+    <div class="content-wrapper">
+        <div class="text-content">
+            <h2>What We've Enabled So Far</h2>
+            <ul>
+            <li>Nested Folds with Varying Backgrounds</li>
+            <li>Flexible Column and Row Configurations</li>
+            <li>Interactive Charts and Multimedia Embeds</li>
+            <li>Responsive and Accessible Design</li>
+            <li>Easy Slide Creation via Dictionary-Based Configuration</li>
+            </ul>
+        <button class="collapsible level-0" aria-expanded="false" aria-controls="collapsible-0-5-0">Nested Folds</button>
+        <div id="collapsible-0-5-0" class="content-panel">
+            <p>Create hierarchical content structures with ease.</p>
+        </div>
+        <button class="collapsible level-0" aria-expanded="false" aria-controls="collapsible-0-5-1">Interactive Charts</button>
+        <div id="collapsible-0-5-1" class="content-panel">
+            <p>Embed dynamic charts to visualize data effectively.</p>
+        </div>
+        </div>
+        <div class="image-content">
+            <img src="images/placeholder.png" alt="Current Features Image">
+        </div>
+    </div>
+</div>
+
+<div class="slide">
+    <div class="content-wrapper">
+        <div class="text-content">
+            <h2>Planned Enhancements</h2>
+            <ul>
+            <li>Real-Time Collaboration Tools</li>
+            <li>Advanced Animation and Transition Effects</li>
+            <li>Integration with External Data Sources</li>
+            <li>Customizable Templates and Themes</li>
+            <li>Enhanced Accessibility Features</li>
+            </ul>
+        <button class="collapsible level-0" aria-expanded="false" aria-controls="collapsible-0-6-0">Real-Time Collaboration</button>
+        <div id="collapsible-0-6-0" class="content-panel">
+            <p>Enable multiple users to edit and interact with presentations simultaneously.</p>
+        </div>
+        <button class="collapsible level-0" aria-expanded="false" aria-controls="collapsible-0-6-1">Advanced Animations</button>
+        <div id="collapsible-0-6-1" class="content-panel">
+            <p>Incorporate smooth animations and transitions for engaging presentations.</p>
+        </div>
+        <button class="collapsible level-0" aria-expanded="false" aria-controls="collapsible-0-6-2">Data Integration</button>
+        <div id="collapsible-0-6-2" class="content-panel">
+            <p>Connect to APIs and databases for dynamic data-driven slides.</p>
+        </div>
+        </div>
+        <div class="image-content">
+            <img src="images/placeholder.png" alt="Future Features Image">
+        </div>
+    </div>
+</div>
+
+<div class="slide">
+    <div class="content-wrapper">
+        <div class="text-content">
+            <h2>Seamless Slide Creation via LLMs</h2>
+            <p>Our system is designed to work hand-in-hand with powerful Language Models like ChatGPT, enabling effortless slide generation and customization.</p>
+            <p>Advantages include:</p>
+            <ul>
+            <li>Rapid creation from conversational inputs.</li>
+            <li>Easy updates and modifications through dialogue.</li>
+            <li>Incorporation of complex data and multimedia with simple instructions.</li>
+            </ul>
+        <button class="collapsible level-0" aria-expanded="false" aria-controls="collapsible-0-7-0">Conversational Slide Generation</button>
+        <div id="collapsible-0-7-0" class="content-panel">
+            <p>Generate detailed slides through natural language prompts.</p>
+        </div>
+        <button class="collapsible level-0" aria-expanded="false" aria-controls="collapsible-0-7-1">Dynamic Content Updates</button>
+        <div id="collapsible-0-7-1" class="content-panel">
+            <p>Modify existing slides by requesting changes in an interactive manner.</p>
+        </div>
+        </div>
+        <div class="image-content">
+            <img src="images/placeholder.png" alt="Building Slides with LLMs Image">
+        </div>
+    </div>
+</div>
+
+<div class="slide">
+    <div class="content-wrapper">
+        <div class="text-content">
+            <h2>System Architecture</h2>
+            <p>Our presentation system leverages a dictionary-based configuration approach, allowing for structured and scalable slide creation.</p>
+            <p>Key Components:</p>
+            <ul>
+            <li>Dictionary Definitions for Slides and Content</li>
+            <li>Helper Functions for HTML and CSS Generation</li>
+            <li>CSS Framework for Styling and Responsiveness</li>
+            <li>JavaScript for Interactivity and Dynamic Features</li>
+            </ul>
+        <button class="collapsible level-0" aria-expanded="false" aria-controls="collapsible-0-8-0">Dictionary-Based Configuration</button>
+        <div id="collapsible-0-8-0" class="content-panel">
+            <p>Define slides, content, and layouts using simple Python dictionaries.</p>
+        </div>
+        <button class="collapsible level-0" aria-expanded="false" aria-controls="collapsible-0-8-1">Helper Functions</button>
+        <div id="collapsible-0-8-1" class="content-panel">
+            <p>Automate the generation of HTML and CSS based on configurations.</p>
+        </div>
+        </div>
+        <div class="image-content">
+            <img src="images/placeholder.png" alt="How It Works Image">
+        </div>
+    </div>
+</div>
+
+<div class="slide">
+    <div class="content-wrapper">
+        <div class="text-content">
+            <h2>Applications of Our Presentation System</h2>
+            <ul>
+            <li>Educational Lectures and Tutorials</li>
+            <li>Business Presentations and Reports</li>
+            <li>Technical Documentation and Demos</li>
+            <li>Interactive Workshops and Webinars</li>
+            </ul>
+        <button class="collapsible level-0" aria-expanded="false" aria-controls="collapsible-0-9-0">Educational Use</button>
+        <div id="collapsible-0-9-0" class="content-panel">
+            <p>Create detailed, information-dense slides for effective teaching.</p>
+        </div>
+        <button class="collapsible level-0" aria-expanded="false" aria-controls="collapsible-0-9-1">Business Applications</button>
+        <div id="collapsible-0-9-1" class="content-panel">
+            <p>Develop professional presentations with dynamic data visualizations.</p>
+        </div>
+        </div>
+        <div class="image-content">
+            <img src="images/placeholder.png" alt="Use Cases Image">
+        </div>
+    </div>
+</div>
+
+<div class="slide">
+    <div class="content-wrapper">
+        <div class="text-content">
+            <h2>Under the Hood</h2>
+            <p>The system is built using modern web technologies to ensure performance, scalability, and ease of use.</p>
+            <p>Technologies Used:</p>
+            <ul>
+            <li>HTML5 and CSS3 for structure and styling.</li>
+            <li>JavaScript for interactivity.</li>
+            <li>Python for configuration and helper scripts.</li>
+            <li>Chart.js for data visualization.</li>
+            </ul>
+        <button class="collapsible level-0" aria-expanded="false" aria-controls="collapsible-0-10-0">Front-End Technologies</button>
+        <div id="collapsible-0-10-0" class="content-panel">
+            <p>HTML and CSS provide a robust foundation for responsive design.</p>
+        </div>
+        <button class="collapsible level-0" aria-expanded="false" aria-controls="collapsible-0-10-1">Back-End Integration</button>
+        <div id="collapsible-0-10-1" class="content-panel">
+            <p>Python scripts automate the generation of slide content and structure.</p>
+        </div>
+        </div>
+        <div class="image-content">
+            <img src="images/placeholder.png" alt="Technical Overview Image">
+        </div>
+    </div>
+</div>
+
+<div class="slide">
+    <div class="content-wrapper">
+        <div class="text-content">
+            <h2>Highly Extensible and Customizable</h2>
+            <p>Our system is designed to be easily extended to meet diverse presentation needs.</p>
+            <p>Customization Options:</p>
+            <ul>
+            <li>Custom CSS Themes and Styles</li>
+            <li>Integration with Third-Party APIs</li>
+            <li>Adding New Content Types and Components</li>
+            <li>Localization and Internationalization Support</li>
+            </ul>
+        <button class="collapsible level-0" aria-expanded="false" aria-controls="collapsible-0-11-0">Custom Themes</button>
+        <div id="collapsible-0-11-0" class="content-panel">
+            <p>Apply different color schemes and layouts to match branding.</p>
+        </div>
+        <button class="collapsible level-0" aria-expanded="false" aria-controls="collapsible-0-11-1">API Integrations</button>
+        <div id="collapsible-0-11-1" class="content-panel">
+            <p>Connect to external data sources for real-time content updates.</p>
+        </div>
+        </div>
+        <div class="image-content">
+            <img src="images/placeholder.png" alt="Extensibility Image">
+        </div>
+    </div>
+</div>
+
+<div class="slide">
+    <div class="content-wrapper">
+        <div class="text-content">
+            <h2>Commitment to Accessibility</h2>
+            <p>Ensuring that our presentation system is usable by everyone, including those with disabilities.</p>
+            <p>Accessibility Features:</p>
+            <ul>
+            <li>Keyboard Navigable Interfaces</li>
+            <li>Screen Reader Compatibility</li>
+            <li>High Contrast Modes</li>
+            <li>ARIA Attributes for Enhanced Semantics</li>
+            </ul>
+        <button class="collapsible level-0" aria-expanded="false" aria-controls="collapsible-0-12-0">Keyboard Navigation</button>
+        <div id="collapsible-0-12-0" class="content-panel">
+            <p>All interactive elements are accessible via keyboard controls.</p>
+        </div>
+        <button class="collapsible level-0" aria-expanded="false" aria-controls="collapsible-0-12-1">Screen Reader Support</button>
+        <div id="collapsible-0-12-1" class="content-panel">
+            <p>Semantic HTML and ARIA attributes improve compatibility with assistive technologies.</p>
+        </div>
+        </div>
+        <div class="image-content">
+            <img src="images/placeholder.png" alt="Accessibility Image">
+        </div>
+    </div>
+</div>
+
+<div class="slide">
+    <div class="content-wrapper">
+        <div class="text-content">
+            <h2>Rich Multimedia Integration</h2>
+            <p>Enhance your presentations with a variety of multimedia elements.</p>
+            <p>Supported Multimedia Types:</p>
+            <ul>
+            <li>Images and Galleries</li>
+            <li>Embedded Videos and Audio</li>
+            <li>Interactive Charts and Graphs</li>
+            <li>Animations and Transitions</li>
+            </ul>
+        <button class="collapsible level-0" aria-expanded="false" aria-controls="collapsible-0-13-0">Embedded Media</button>
+        <div id="collapsible-0-13-0" class="content-panel">
+            <p>Seamlessly incorporate videos and audio clips for dynamic content delivery.</p>
+        </div>
+        <button class="collapsible level-0" aria-expanded="false" aria-controls="collapsible-0-13-1">Interactive Visuals</button>
+        <div id="collapsible-0-13-1" class="content-panel">
+            <p>Use tools like Chart.js to create engaging data visualizations.</p>
+        </div>
+        </div>
+        <div class="image-content">
+            <img src="images/placeholder.png" alt="Multimedia Support Image">
+        </div>
+    </div>
+</div>
+
+<div class="slide">
+    <div class="content-wrapper">
+        <div class="text-content">
+            <h2>System Performance</h2>
+            <p>Optimized for fast load times and smooth interactions.</p>
+            <p>Key Metrics:</p>
+            <ul>
+            <li>Average Slide Load Time: <strong>200ms</strong></li>
+            <li>Responsive Design Efficiency: <strong>High</strong></li>
+            <li>Scalability: Supports presentations with up to <strong>100 slides</strong></li>
+            <li>Resource Utilization: Minimal CPU and Memory usage</li>
+            </ul>
+        <button class="collapsible level-0" aria-expanded="false" aria-controls="collapsible-0-14-0">Load Times</button>
+        <div id="collapsible-0-14-0" class="content-panel">
+            <p>Slides load almost instantaneously, ensuring a seamless viewing experience.</p>
+        </div>
+        <button class="collapsible level-0" aria-expanded="false" aria-controls="collapsible-0-14-1">Scalability</button>
+        <div id="collapsible-0-14-1" class="content-panel">
+            <p>Efficiently handles large presentations without performance degradation.</p>
+        </div>
+        </div>
+        <div class="image-content">
+            <img src="images/placeholder.png" alt="Performance Metrics Image">
+        </div>
+    </div>
+</div>
+
+<div class="slide">
+    <div class="content-wrapper">
+        <div class="text-content">
+            <h2>Why Choose Our Presentation System?</h2>
+            <ul>
+            <li>Unparalleled Flexibility and Customization</li>
+            <li>High Information Density with Clarity</li>
+            <li>Seamless Integration with Modern Technologies</li>
+            <li>Accessible and Inclusive Design</li>
+            <li>Future-Proof and Extensible Architecture</li>
+            </ul>
+            <p>Empower your presentations with a system built for clarity, efficiency, and scalability.</p>
+        </div>
+        <div class="image-content">
+            <img src="images/placeholder.png" alt="Conclusion Image">
+        </div>
+    </div>
+</div>
+
+<div class="slide">
+    <div class="content-wrapper">
+        <div class="text-content">
+            <h2>Thank You!</h2>
+            <p>Your questions?</p>
+            <p>Feel free to reach out for further discussions.</p>
+        </div>
+        <div class="image-content">
+            <img src="images/placeholder.png" alt="Thank You Image">
+        </div>
+    </div>
+</div>
+
+
+        </div>
+    </div>
+    <!-- Link to JavaScript -->
+    <script src="static/js/script.js"></script>
+</body>
+</html>

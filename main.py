@@ -123,16 +123,16 @@ def copy_static_files(output_folder: str):
 
 #######################################################################
 
-sample_title = "Example Presentation"
+sample_title = "Presentation System Overview"
 sample_author = "Marc Carnovale"
 sample_date = "November 21, 2024"
 sample_slides = [
     {
-        "title": "Presentation System Overview",
+        "title": "",  # Title slide
         "html-content": [
-            "<h1>Presentation System Overview</h1>",
-            "<h3>by Your Name</h3>",
-            "<p>November 23, 2024</p>"
+            f"<h1>{sample_title}</h1>",
+            f"<h3>by {sample_author}</h3>",
+            f"<p>{sample_date}</p>"
         ],
         "dark": True
     },
@@ -574,6 +574,8 @@ sample_slides = [
         ],
     }
 ]
+
+
 
 def main(): 
     # Parse command-line arguments
