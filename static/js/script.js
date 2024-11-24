@@ -315,12 +315,8 @@ const BreadcrumbManager = (() => {
             });
         });
 
-        // Enable horizontal scrolling with vertical mousewheel
-        document.querySelector('.breadcrumb').addEventListener('wheel', (event) => {
-            event.preventDefault();
-            const breadcrumb = event.currentTarget;
-            breadcrumb.scrollLeft += event.deltaY;
-        });
+
+
     }
 
     return { updateBreadcrumb, setupBreadcrumbNavigation };
@@ -551,4 +547,30 @@ function navigateTo(index) {
 document.addEventListener('slideChange', (event) => {
     const { detail: slideIndex } = event;
     centerActiveBreadcrumb(slideIndex);
+});
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const breadcrumbList = document.querySelector('.breadcrumb ol');
+
+    if (breadcrumbList) {
+        // Debounce function for smoother scrolling
+        let scrollTimeout = null;
+
+        breadcrumbList.addEventListener('wheel', (event) => {
+            event.preventDefault();
+            const delta = event.deltaY || event.deltaX; // Support for different scrolling inputs
+            
+            // Smooth horizontal scrolling
+            breadcrumbList.scrollLeft += delta;
+
+            // Debounce active updates
+            if (scrollTimeout) {
+                clearTimeout(scrollTimeout);
+            }
+            scrollTimeout = setTimeout(() => {
+                // Optionally, update visible breadcrumb indicators here
+            }, 50);
+        });
+    }
 });

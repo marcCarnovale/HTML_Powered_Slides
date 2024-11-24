@@ -680,6 +680,8 @@ h1, h2, h3 {
     gap: 10px; /* Space between breadcrumb items */
     overflow-x: auto; /* Enable horizontal scrolling for long breadcrumbs */
     scrollbar-width: none; /* Hide scrollbar in Firefox */
+    scrollbar-width: none; /* Hide scrollbar in Firefox */
+    -ms-overflow-style: none; /* Hide scrollbar in IE */
 }
 
 .breadcrumb ol::-webkit-scrollbar {

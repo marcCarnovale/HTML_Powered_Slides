@@ -29,7 +29,7 @@ const slideManager = (() => {
             }
         });
     }
-    
+
     function goToslide(index) {
         if (index < 0 || index >= mainslides.length) {
             log(`Invalid slide index: ${index}`, "error");
@@ -311,13 +311,17 @@ const BreadcrumbManager = (() => {
         breadcrumbLinks.forEach((link, index) => {
             link.addEventListener('click', (event) => {
                 event.preventDefault();
-                slideManager.goToslide(index); // Navigate to the selected slide
+                navigateTo(index); // Navigate to the selected slide
             });
         });
+
+
+
     }
 
     return { updateBreadcrumb, setupBreadcrumbNavigation };
 })();
+
 
 // Content-First Mode Management
 const ContentFirstManager = (() => {
@@ -543,4 +547,30 @@ function navigateTo(index) {
 document.addEventListener('slideChange', (event) => {
     const { detail: slideIndex } = event;
     centerActiveBreadcrumb(slideIndex);
+});
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const breadcrumbList = document.querySelector('.breadcrumb ol');
+
+    if (breadcrumbList) {
+        // Debounce function for smoother scrolling
+        let scrollTimeout = null;
+
+        breadcrumbList.addEventListener('wheel', (event) => {
+            event.preventDefault();
+            const delta = event.deltaY || event.deltaX; // Support for different scrolling inputs
+            
+            // Smooth horizontal scrolling
+            breadcrumbList.scrollLeft += delta;
+
+            // Debounce active updates
+            if (scrollTimeout) {
+                clearTimeout(scrollTimeout);
+            }
+            scrollTimeout = setTimeout(() => {
+                // Optionally, update visible breadcrumb indicators here
+            }, 50);
+        });
+    }
 });
