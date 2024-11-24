@@ -7,7 +7,7 @@ Inspired by Edward Tufte's philosophy on effective information presentation, thi
 
 ## Demonstration
 <video controls>
-  <source src="media/showcase.mkv" type="video/mp4">
+  <source src="media/showcase.gif" type="video/mp4">
   Your browser does not support the video tag.
 </video>
 ---
