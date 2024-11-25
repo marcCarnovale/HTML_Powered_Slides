@@ -62,7 +62,7 @@ Use CSS variables to manage the primary colors and reusable styles of your theme
 
 ### 3. Customize Styles
 
-Override or extend additional styles to match your theme. Use the existing `core.css` as a reference for the structure.
+Override or extend additional styles to match your theme. Use the existing `style-blue.css` as a reference for the structure, or core.css to further override layout and behaviour.
 
 Example:
 
