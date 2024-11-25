@@ -496,30 +496,101 @@ sample_slides = [
         "title": "Multimedia Support",
         "content": [
             "<h2>Rich Multimedia Integration</h2>",
-            "<p>Enhance your presentations with a variety of multimedia elements.</p>",
-            "<p>Supported Multimedia Types:</p>",
+            "<p>Enhance your presentations with a variety of multimedia elements, such as:",
             "<ul>",
             "<li>Images and Galleries</li>",
             "<li>Embedded Videos and Audio</li>",
-            "<li>Interactive Charts and Graphs</li>",
             "<li>Animations and Transitions</li>",
             "</ul>"
         ],
         "folds": [
             {
+                "title": "Interactive Visuals",
+                "content": [
+                    "<p>Use tools like Chart.js to create engaging data visualizations.</p>"
+                ],
+                "folds": [
+                    {
+                        "title": "Data Visualization",
+                        "chart": {
+                            "type": "bar",
+                            "data": {
+                                "labels": ["January", "February", "March", "April", "May", "June"],
+                                "datasets": [{
+                                    "label": "Sales",
+                                    "data": [50, 60, 70, 80, 65, 75],
+                                    "backgroundColor": "rgba(54, 162, 235, 0.2)",
+                                    "borderColor": "rgba(54, 162, 235, 1)",
+                                    "borderWidth": 1
+                                }]
+                            },
+                            "options": {
+                                "scales": {
+                                    "x": {
+                                        "ticks": {
+                                            "maxRotation": 45,
+                                            "minRotation": 45
+                                        }
+                                    },
+                                    "y": {"beginAtZero": True}
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            {
                 "title": "Embedded Media",
                 "content": [
                     "<p>Seamlessly incorporate videos and audio clips for dynamic content delivery.</p>"
                 ]
-            },
-            {
-                "title": "Interactive Visuals",
-                "content": [
-                    "<p>Use tools like Chart.js to create engaging data visualizations.</p>"
-                ]
             }
         ],
         "image": "multimedia_support.png"
+    },    
+    {
+        "title": "Newsprint Tiling Example",
+        "content": [
+            {
+                "rows": {
+                    "number": 2,
+                    "content": [
+                        {
+                            "columns": {
+                                "number": 3,
+                                "size": ["30%", "40%", "30%"],
+                                "content": [
+                                    {
+                                        "html-content": "<h3>Headlines</h3><p>Latest news updates.</p>"
+                                    },
+                                    {
+                                        "html-content": "<h3>Top Stories</h3><p>In-depth analysis of current events.</p>"
+                                    },
+                                    {
+                                        "html-content": "<h3>Weather</h3><p>Today's weather forecast.</p>"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "columns": {
+                                "number": 2,
+                                "size": ["50%", "50%"],
+                                "content": [
+                                    "Advertising Space",
+                                    "Sponsored Content"
+                                ]
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "title": "Additional Content",
+                "html-content": "<p>Additional content below the tiling layout, such as editor's note or contact information.</p>"
+            }
+        ],
+        "image": "newsprint_example_image.png"
     },
     {
         "title": "Performance Metrics",

@@ -28,9 +28,10 @@
 <a href="#" onclick="navigateTo(10); return false;">Extensibility</a>
 <a href="#" onclick="navigateTo(11); return false;">Accessibility</a>
 <a href="#" onclick="navigateTo(12); return false;">Multimedia Support</a>
-<a href="#" onclick="navigateTo(13); return false;">Performance Metrics</a>
-<a href="#" onclick="navigateTo(14); return false;">Conclusion</a>
-<a href="#" onclick="navigateTo(15); return false;">Thank You</a>
+<a href="#" onclick="navigateTo(13); return false;">Newsprint Tiling Example</a>
+<a href="#" onclick="navigateTo(14); return false;">Performance Metrics</a>
+<a href="#" onclick="navigateTo(15); return false;">Conclusion</a>
+<a href="#" onclick="navigateTo(16); return false;">Thank You</a>
 
     </div>
     <div class="container">
@@ -53,9 +54,10 @@
     <li><a href="#" onclick="navigateTo(11); return false;">Extensibility</a></li>
     <li><a href="#" onclick="navigateTo(12); return false;">Accessibility</a></li>
     <li><a href="#" onclick="navigateTo(13); return false;">Multimedia Support</a></li>
-    <li><a href="#" onclick="navigateTo(14); return false;">Performance Metrics</a></li>
-    <li><a href="#" onclick="navigateTo(15); return false;">Conclusion</a></li>
-    <li><a href="#" onclick="navigateTo(16); return false;">Thank You</a></li>
+    <li><a href="#" onclick="navigateTo(14); return false;">Newsprint Tiling Example</a></li>
+    <li><a href="#" onclick="navigateTo(15); return false;">Performance Metrics</a></li>
+    <li><a href="#" onclick="navigateTo(16); return false;">Conclusion</a></li>
+    <li><a href="#" onclick="navigateTo(17); return false;">Thank You</a></li>
 </ol>
             </nav>
         </div>
@@ -401,25 +403,64 @@
     <div class="content-wrapper">
         <div class="text-content">
             <h2>Rich Multimedia Integration</h2>
-            <p>Enhance your presentations with a variety of multimedia elements.</p>
-            <p>Supported Multimedia Types:</p>
+            <p>Enhance your presentations with a variety of multimedia elements, such as:
             <ul>
             <li>Images and Galleries</li>
             <li>Embedded Videos and Audio</li>
-            <li>Interactive Charts and Graphs</li>
             <li>Animations and Transitions</li>
             </ul>
-        <button class="collapsible level-0" aria-expanded="false" aria-controls="collapsible-0-13-0">Embedded Media</button>
+        <button class="collapsible level-0" aria-expanded="false" aria-controls="collapsible-0-13-0">Interactive Visuals</button>
         <div id="collapsible-0-13-0" class="content-panel">
-            <p>Seamlessly incorporate videos and audio clips for dynamic content delivery.</p>
-        </div>
-        <button class="collapsible level-0" aria-expanded="false" aria-controls="collapsible-0-13-1">Interactive Visuals</button>
-        <div id="collapsible-0-13-1" class="content-panel">
             <p>Use tools like Chart.js to create engaging data visualizations.</p>
+            <button class="collapsible level-1" aria-expanded="false" aria-controls="collapsible-0-13-0-sub-1">Data Visualization</button>
+            <div id="collapsible-0-13-0-sub-1" class="content-panel">
+                <div class="chart-container" data-chart-data='{"type": "bar", "data": {"labels": ["January", "February", "March", "April", "May", "June"], "datasets": [{"label": "Sales", "data": [50, 60, 70, 80, 65, 75], "backgroundColor": "rgba(54, 162, 235, 0.2)", "borderColor": "rgba(54, 162, 235, 1)", "borderWidth": 1}]}, "options": {"scales": {"x": {"ticks": {"maxRotation": 45, "minRotation": 45}}, "y": {"beginAtZero": true}}}}'>
+                    <canvas></canvas>
+                </div>
+            </div>
+        </div>
+        <button class="collapsible level-0" aria-expanded="false" aria-controls="collapsible-0-13-1">Embedded Media</button>
+        <div id="collapsible-0-13-1" class="content-panel">
+            <p>Seamlessly incorporate videos and audio clips for dynamic content delivery.</p>
         </div>
         </div>
         <div class="image-content">
             <img src="images/placeholder.png" alt="Multimedia Support Image">
+        </div>
+    </div>
+</div>
+
+<div class="slide">
+    <div class="content-wrapper">
+        <div class="text-content">
+            <div class="rows">
+                <div class="columns">
+                    <div class="column resizable" style="flex: 0 0 30%;">
+                        <h3>Headlines</h3><p>Latest news updates.</p>
+                    </div>
+                    <div class="column resizable" style="flex: 0 0 40%;">
+                        <h3>Top Stories</h3><p>In-depth analysis of current events.</p>
+                    </div>
+                    <div class="column resizable" style="flex: 0 0 30%;">
+                        <h3>Weather</h3><p>Today's weather forecast.</p>
+                    </div>
+                </div>
+                <div class="columns">
+                    <div class="column resizable" style="flex: 0 0 50%;">
+                        <p>Advertising Space</p>
+                    </div>
+                    <div class="column resizable" style="flex: 0 0 50%;">
+                        <p>Sponsored Content</p>
+                    </div>
+                </div>
+            </div>
+            <button class="collapsible level-0" aria-expanded="false" aria-controls="fold-0-14">Additional Content</button>
+            <div id="fold-0-14" class="content-panel">
+                <p>Additional content below the tiling layout, such as editor's note or contact information.</p>
+            </div>
+        </div>
+        <div class="image-content">
+            <img src="images/placeholder.png" alt="Newsprint Tiling Example Image">
         </div>
     </div>
 </div>
@@ -436,12 +477,12 @@
             <li>Scalability: Supports presentations with up to <strong>100 slides</strong></li>
             <li>Resource Utilization: Minimal CPU and Memory usage</li>
             </ul>
-        <button class="collapsible level-0" aria-expanded="false" aria-controls="collapsible-0-14-0">Load Times</button>
-        <div id="collapsible-0-14-0" class="content-panel">
+        <button class="collapsible level-0" aria-expanded="false" aria-controls="collapsible-0-15-0">Load Times</button>
+        <div id="collapsible-0-15-0" class="content-panel">
             <p>Slides load almost instantaneously, ensuring a seamless viewing experience.</p>
         </div>
-        <button class="collapsible level-0" aria-expanded="false" aria-controls="collapsible-0-14-1">Scalability</button>
-        <div id="collapsible-0-14-1" class="content-panel">
+        <button class="collapsible level-0" aria-expanded="false" aria-controls="collapsible-0-15-1">Scalability</button>
+        <div id="collapsible-0-15-1" class="content-panel">
             <p>Efficiently handles large presentations without performance degradation.</p>
         </div>
         </div>

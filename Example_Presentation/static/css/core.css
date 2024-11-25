@@ -664,3 +664,63 @@ h1, h2, h3 {
     outline: 2px solid #ff9800; /* Custom focus ring */
     border-radius: 3px; /* Optional: match your design */
 }
+
+.breadcrumb {
+    display: flex;
+    justify-content: center; /* Center-align breadcrumbs */
+    align-items: center; /* Vertically center items */
+    position: relative;
+    overflow: hidden; /* Prevent content overflow */
+    padding: 5px 10px; /* Adjust spacing as needed */
+    white-space: nowrap; /* Prevent items from wrapping */
+}
+
+.breadcrumb ol {
+    display: flex;
+    gap: 10px; /* Space between breadcrumb items */
+    overflow-x: auto; /* Enable horizontal scrolling for long breadcrumbs */
+    scrollbar-width: none; /* Hide scrollbar in Firefox */
+    scrollbar-width: none; /* Hide scrollbar in Firefox */
+    -ms-overflow-style: none; /* Hide scrollbar in IE */
+}
+
+.breadcrumb ol::-webkit-scrollbar {
+    display: none; /* Hide scrollbar in WebKit-based browsers */
+}
+
+.breadcrumb li {
+    flex-shrink: 0; /* Prevent items from shrinking */
+    list-style: none; /* Remove bullet points */
+}
+
+.breadcrumb a {
+    text-decoration: none;
+    color: var(--breadcrumb-link-color, #007bff); /* Fallback to blue if theme variable is missing */
+    padding: 5px 10px; /* Add clickable area padding */
+    white-space: nowrap; /* Prevent text wrapping */
+    transition: color 0.3s ease;
+}
+
+.breadcrumb a:hover {
+    color: var(--breadcrumb-link-hover-color, #0056b3); /* Fallback to darker blue */
+    text-decoration: underline; /* Highlight on hover */
+}
+
+.breadcrumb a.active {
+    font-weight: bold;
+    text-decoration: underline;
+    color: var(--breadcrumb-active-color, #333); /* Fallback to dark gray */
+}
+
+/* Center alignment for small content */
+.breadcrumb ol:before,
+.breadcrumb ol:after {
+    content: ''; /* Create pseudo-elements for alignment */
+    flex: 1; /* Push items to the center */
+}
+
+/* Smooth auto-scrolling for navigation */
+.breadcrumb ol {
+    scroll-behavior: smooth; /* Smooth scrolling for supported browsers */
+}
+

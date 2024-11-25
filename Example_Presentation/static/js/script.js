@@ -51,7 +51,6 @@ const slideManager = (() => {
         if (currentIndex > 0) {
             updateTOCHighlight();
         } else {
-            // If navigating to the first slide, ensure no TOC links are active
             tocLinks.forEach(link => link.classList.remove('active'));
         }
     
@@ -64,7 +63,12 @@ const slideManager = (() => {
     
         log(`Navigated to slide index: ${currentIndex}`);
         BreadcrumbManager.updateBreadcrumb();
+    
+        // Dispatch a custom event for slide changes
+        const slideChangeEvent = new CustomEvent('slideChange', { detail: currentIndex });
+        document.dispatchEvent(slideChangeEvent);
     }
+    
     
 
     function nextslide() {
@@ -307,13 +311,17 @@ const BreadcrumbManager = (() => {
         breadcrumbLinks.forEach((link, index) => {
             link.addEventListener('click', (event) => {
                 event.preventDefault();
-                slideManager.goToslide(index); // Navigate to the selected slide
+                navigateTo(index); // Navigate to the selected slide
             });
         });
+
+
+
     }
 
     return { updateBreadcrumb, setupBreadcrumbNavigation };
 })();
+
 
 // Content-First Mode Management
 const ContentFirstManager = (() => {
@@ -448,6 +456,7 @@ document.addEventListener('DOMContentLoaded', () => {
     Resizer.loadColumnWidths();
 });
 
+// Deactivate nextslide for resizableElements
 document.addEventListener('DOMContentLoaded', function() {
     const resizableElements = document.querySelectorAll('.resizable');
     resizableElements.forEach(function(element) {
@@ -456,4 +465,112 @@ document.addEventListener('DOMContentLoaded', function() {
             event.stopPropagation();
         });
     });
+});
+
+
+// Theme Switching
+
+const themes = [
+    "static/css/themes/style-dark.css",
+    "static/css/themes/style-blue.css",
+    "static/css/themes/style-seafoam.css"
+];
+
+let currentThemeIndex = 0;
+
+// Function to switch themes
+function switchTheme() {
+    currentThemeIndex = (currentThemeIndex + 1) % themes.length; // Rotate to the next theme
+    document.getElementById("theme-stylesheet").href = themes[currentThemeIndex];
+}
+
+// Add event listener for key combination
+document.addEventListener("keydown", (event) => {
+    if (event.ctrlKey && event.key === "ArrowUp") {
+        // Ctrl + Up Arrow: Switch to the next theme
+        switchTheme();
+    } else if (event.ctrlKey && event.shiftKey && event.key === "ArrowUp") {
+        // Ctrl + Shift + Up Arrow: Switch to the previous theme
+        currentThemeIndex = (currentThemeIndex - 1 + themes.length) % themes.length;
+        document.getElementById("theme-stylesheet").href = themes[currentThemeIndex];
+    } else if (event.ctrlKey && event.shiftKey && event.key === "ArrowDown") {
+        // Ctrl + Shift + Down Arrow: Switch to the next theme
+        switchTheme();
+    } else if (event.ctrlKey && event.key === "ArrowDown") {
+        // Ctrl + Down Arrow: Switch to the previous theme
+        currentThemeIndex = (currentThemeIndex - 1 + themes.length) % themes.length;
+        document.getElementById("theme-stylesheet").href = themes[currentThemeIndex];
+    }
+
+    // Save the current theme index in localStorage
+    localStorage.setItem("themeIndex", currentThemeIndex);
+});
+
+// Load the saved theme on page load
+const savedThemeIndex = localStorage.getItem("themeIndex");
+if (savedThemeIndex !== null) {
+    currentThemeIndex = parseInt(savedThemeIndex, 0);
+    document.getElementById("theme-stylesheet").href = themes[currentThemeIndex];
+}
+
+
+// Utility to center the active breadcrumb
+function centerActiveBreadcrumb(index) {
+    const breadcrumb = document.querySelector('.breadcrumb ol');
+    const activeLink = breadcrumb.querySelectorAll('a')[index];
+
+    if (activeLink) {
+        // Smooth scroll to center the active breadcrumb
+        activeLink.scrollIntoView({
+            behavior: 'smooth',
+            inline: 'center'
+        });
+
+        // Update active breadcrumb styling
+        breadcrumb.querySelectorAll('a').forEach((link, i) => {
+            if (i === index) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
+    }
+}
+
+// Extend navigateTo to include breadcrumb centering
+function navigateTo(index) {
+    centerActiveBreadcrumb(index); // Center the breadcrumb
+    slideManager.goToslide(index); // Trigger navigation to the slide
+}
+
+// Monitor slide changes for other navigation actions (e.g., clicks)
+document.addEventListener('slideChange', (event) => {
+    const { detail: slideIndex } = event;
+    centerActiveBreadcrumb(slideIndex);
+});
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const breadcrumbList = document.querySelector('.breadcrumb ol');
+
+    if (breadcrumbList) {
+        // Debounce function for smoother scrolling
+        let scrollTimeout = null;
+
+        breadcrumbList.addEventListener('wheel', (event) => {
+            event.preventDefault();
+            const delta = event.deltaY || event.deltaX; // Support for different scrolling inputs
+            
+            // Smooth horizontal scrolling
+            breadcrumbList.scrollLeft += delta;
+
+            // Debounce active updates
+            if (scrollTimeout) {
+                clearTimeout(scrollTimeout);
+            }
+            scrollTimeout = setTimeout(() => {
+                // Optionally, update visible breadcrumb indicators here
+            }, 50);
+        });
+    }
 });
