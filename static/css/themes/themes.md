@@ -19,6 +19,10 @@ Themes allow you to customize the visual appearance of your presentation by usin
    - A clean, light-blue theme for modern presentations.
    - File: `style-blue.css`
 
+3. **Seafoam Theme**:
+   - A sophisticated, vibrant theme with layered gradients and subtle customizations.
+   - File: `style-seafoam.css`
+     
 ---
 
 ## **How to Apply a Theme**
