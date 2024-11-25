@@ -65,7 +65,7 @@ Themes control the visual appearance of your presentation. To create a new theme
 python main.py --theme custom-theme.css
 
 
-Refer to the themes.md file for more details.
+Refer to the static/css/themes/themes.md file for more details.
 
 ## **Contributing**
 
