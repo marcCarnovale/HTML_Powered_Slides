@@ -1,17 +1,22 @@
 # main.py
 import argparse
-import os
 import json
-import yaml
+import os
 import shutil
-from typing import Dict, Any, List, Tuple
+from pathlib import Path
+from typing import Any, Dict, List
+
+import yaml
+
 from helper import (
-    sanitize_title,
-    generate_toc,
-    generate_slide_content,
     copy_project_images,
-    generate_breadcrumbs
+    generate_breadcrumbs,
+    generate_slide_content,
+    generate_toc,
+    sanitize_title,
 )
+
+PROJECT_ROOT = Path(__file__).resolve().parent
 
 def load_configuration(config_path: str) -> Dict[str, Any]:
     """
@@ -89,8 +94,8 @@ def copy_static_files(output_folder: str):
         None
     """
     # Define source and destination paths
-    source_css_folder = "static/css"
-    source_js_folder = "static/js"
+    source_css_folder = PROJECT_ROOT / "static" / "css"
+    source_js_folder = PROJECT_ROOT / "static" / "js"
 
     # Destination paths
     dest_css_folder = os.path.join(output_folder, "static", "css")
@@ -101,7 +106,7 @@ def copy_static_files(output_folder: str):
     os.makedirs(dest_js_folder, exist_ok=True)
 
     # Copy core.css
-    core_css_source = os.path.join(source_css_folder, "core.css")
+    core_css_source = source_css_folder / "core.css"
     core_css_dest = os.path.join(dest_css_folder, "core.css")
     if os.path.isfile(core_css_source):
         shutil.copy(core_css_source, core_css_dest)
@@ -111,7 +116,7 @@ def copy_static_files(output_folder: str):
         exit(1)
 
     # Copy script.js
-    script_js_source = os.path.join(source_js_folder, "script.js")
+    script_js_source = source_js_folder / "script.js"
     script_js_dest = os.path.join(dest_js_folder, "script.js")
     if os.path.isfile(script_js_source):
         shutil.copy(script_js_source, script_js_dest)
@@ -666,14 +671,10 @@ def main():
     if args.config:
         config = load_configuration(args.config)
         title = config.get("title", "Untitled Presentation")
-        author = config.get("author", "Unknown Author")
-        date = config.get("date", "Unknown Date")
         slides = config.get("slides", sample_slides)
     else:
         # Default presentation details
         title = sample_title
-        author = sample_author
-        date = sample_date
         slides = sample_slides
 
     # Determine output directory
@@ -708,7 +709,7 @@ def main():
         theme_css = 'style-dark.css'
 
     # Verify that the selected theme CSS file exists
-    theme_source_path = os.path.join("static", "css", "themes", theme_css)
+    theme_source_path = PROJECT_ROOT / "static" / "css" / "themes" / theme_css
     if not os.path.isfile(theme_source_path):
         print(f"Theme CSS file '{theme_css}' not found in 'static/css/themes/' directory.")
         print("Available themes:", ', '.join(theme_mapping.values()))
@@ -722,13 +723,13 @@ def main():
 
     # Copy alt themes
     for theme in ["style-dark.css", "style-blue.css", "style-seafoam.css"]:
-        if theme not in os.listdir(destination_images_folder) :
-            theme_source_path = os.path.join("static", "css", "themes", theme)
+        if theme not in os.listdir(destination_themes_folder):
+            theme_source_path = PROJECT_ROOT / "static" / "css" / "themes" / theme
             shutil.copy(theme_source_path, destination_themes_folder)
             print(f"Copied theme CSS '{theme}' to '{destination_themes_folder}'.")
 
     # Generate HTML presentation
-    template_path = os.path.join("templates", "core.html")
+    template_path = PROJECT_ROOT / "templates" / "core.html"
     generate_html_presentation(title, slides, template_path, output_folder, theme_css)
 
 if __name__ == "__main__":

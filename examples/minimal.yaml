@@ -1,0 +1,16 @@
+title: Minimal Example
+author: Marc Carnovale
+date: 2026-09-22
+slides:
+  - title: ""
+    dark: true
+    html-content:
+      - <h1>Minimal Example</h1>
+      - <p>A small reproducible presentation.</p>
+  - title: One idea
+    content:
+      - <p>Use ordinary HTML for content.</p>
+    folds:
+      - title: More detail
+        content:
+          - <p>Nested detail is available on demand.</p>

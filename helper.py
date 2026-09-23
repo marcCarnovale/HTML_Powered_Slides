@@ -1,9 +1,10 @@
 # helper.py
+import json
 import os
 import re
 import shutil
-from typing import List, Dict, Any, Optional
-import json
+from typing import Any, Dict, List, Optional
+
 
 def sanitize_title(title: str) -> str:
     """Sanitize the presentation title to create a valid filename."""
@@ -27,7 +28,6 @@ def generate_rows_html(rows: Dict[str, Any], unique_prefix: str, level: int, ind
     """
     Generates HTML for a rows structure, handling nested columns and other content.
     """
-    number = rows.get("number", 1)
     row_content = rows.get("content", [])
 
     # Use "rows" class to align with CSS
@@ -326,4 +326,3 @@ def copy_project_images(
     """
     os.makedirs(destination_images_folder, exist_ok=True)
     copy_images(slides, images_source_dir, destination_images_folder)
-
